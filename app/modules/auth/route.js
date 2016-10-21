@@ -16,6 +16,15 @@
                         controller: 'loginController'
                     }
                 }
+            })
+            .state('signup', {
+                url: '/signup',
+                views: {
+                    '@': {
+                        templateUrl: 'app/modules/auth/views/signup.html',
+                        controller: 'signupController'
+                    }
+                }
             });
     }
 
