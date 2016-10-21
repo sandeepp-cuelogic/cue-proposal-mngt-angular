@@ -10,6 +10,7 @@
             'angularLazyImg',
             'ui.bootstrap',
             'localStorage.service',
+            'loginservice.service',
             'config',
             'auth',
             'base',
