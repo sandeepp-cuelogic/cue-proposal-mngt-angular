@@ -1,0 +1,36 @@
+#createUserForm .form-control {
+	width: 70%;
+	display: inline-block;
+	float: right;
+	min-height: 30px;
+    border-radius: 7px;
+}
+#createUserForm .form-label {
+    margin-top: 5px;
+    font-weight: 300;
+    font-size: 14px;
+}
+#userList .form-control {
+	border-radius: 10px;
+}
+#userList .grid-title {
+	border-bottom: 1px solid #ccc;
+}
+#userList .grid-title .tools > a.reload {
+	top: 6px;
+}
+#userList .v-align-middle .tools a{
+	font-size: 16px;
+    color: #5e5e5e;
+}
+#userList .grid.simple .grid-title {
+    color: #5e5e5e;
+}
+#userList .form-label {
+	position: absolute;
+    height: 35px;
+    line-height: 35px;
+}
+#userList .btn-group.m-l-10.m-b-10 {
+	margin-left: 75px;
+}

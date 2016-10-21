@@ -1,0 +1,22 @@
+#availableWidgets .grid.simple .grid-title .tools {
+	position: relative;
+	height: 20px;
+}
+#availableWidgets .checkbox label{
+	padding: 4px;
+	top: -5px;
+}
+.grid.simple .grid-body {
+	position: relative;
+}
+#favWidgets .grid.simple .grid-title .tools a.popover-close, .grid.solid .grid-title .tools a.popover-close {
+	background-position: -66px -38px;
+	width: 16px;
+}
+.btn-add {
+    display: none;
+    margin: 0;
+}
+#widgetContainer .tab-content {
+    position: inherit;
+}
