@@ -11,6 +11,7 @@
             'ui.bootstrap',
             'localStorage.service',
             'loginservice.service',
+            'signupService.service',
             'config',
             'auth',
             'base',
