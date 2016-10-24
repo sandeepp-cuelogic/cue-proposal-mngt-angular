@@ -48522,38 +48522,6 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-'use strict';
-
-(function() {
-
-    // Declare app level module
-    angular
-        .module('angularClientApp', [
-            'ui.router',
-            'ngAnimate',
-            'angularLazyImg',
-            'ui.bootstrap',
-            'localStorage.service',
-            'signupService.service',
-            'config',
-            'auth',
-            'base',
-            'dashboard',
-            'user'
-
-        ])
-        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
-
-    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });
-        $urlRouterProvider.otherwise('/login');
-    }
-
-})();
-
 angular.module('auth', ['ngMessages']);
 
 'use strict';
@@ -48581,41 +48549,6 @@ angular.module('auth', ['ngMessages']);
                     '@': {
                         templateUrl: 'app/modules/auth/views/signup.html',
                         controller: 'signupController'
-                    }
-                }
-            });
-    }
-
-})();
-
-angular.module('base', ['menu.service', 'sidebarMenu.directive']);
-
-(function() {
-    'use strict';
-
-    angular
-        .module('base')
-        .config(['$stateProvider', stateProvider])
-
-    function stateProvider($stateProvider) {
-
-        $stateProvider
-            .state('base', {
-                url: '',
-                abstract: true,
-                views: {
-                    '@': {
-                        templateUrl: 'app/modules/base/views/base.html',
-                        controller: 'baseController'
-                    },
-                    'header@base': {
-                        templateUrl: 'app/modules/base/views/header.html',
-                    },
-                    'sidebar@base': {
-                        templateUrl: 'app/modules/base/views/sidebar.html',
-                    },
-                    'footer@base': {
-                        templateUrl: 'app/modules/base/views/footer.html',
                     }
                 }
             });
@@ -48673,35 +48606,40 @@ angular.module('user', []);
 
 })();
 
-angular.module('sidebarMenu.directive', [])
-    .directive("sidebarMenu", sidebarMenu);
+angular.module('base', ['menu.service', 'sidebarMenu.directive']);
 
-function sidebarMenu() {
-    return {
-        restrict: "E",
-        scope: {
-            "sidebarMenuList": "="
-        },
-        templateUrl: "app/directives/menu/views/sidebar-menu.html",
-        controller: ['$scope', '$location', function($scope, $location) {
+(function() {
+    'use strict';
 
-            $scope.subTabMenus = function() {
-                var increment = 0;
+    angular
+        .module('base')
+        .config(['$stateProvider', stateProvider])
 
-                angular.forEach($scope.sidebarMenuList, function(menu) {
+    function stateProvider($stateProvider) {
 
-                    $scope.sidebarMenuList[increment]["activeCls"] = '';
-
-                    if (menu.action == $location.url().replace(/\//g, '')) {
-                        $scope.sidebarMenuList[increment]["activeCls"] = 'active';
+        $stateProvider
+            .state('base', {
+                url: '',
+                abstract: true,
+                views: {
+                    '@': {
+                        templateUrl: 'app/modules/base/views/base.html',
+                        controller: 'baseController'
+                    },
+                    'header@base': {
+                        templateUrl: 'app/modules/base/views/header.html',
+                    },
+                    'sidebar@base': {
+                        templateUrl: 'app/modules/base/views/sidebar.html',
+                    },
+                    'footer@base': {
+                        templateUrl: 'app/modules/base/views/footer.html',
                     }
-                    increment++;
-                });
-                return $scope.sidebarMenuList;
-            };
-        }]
-    };
-}
+                }
+            });
+    }
+
+})();
 
 'use strict';
 
@@ -48723,7 +48661,7 @@ function sidebarMenu() {
 
     angular
         .module('auth')
-        .controller('signupController', ['$scope', '$state', 'signupService', signupController]);
+        .controller('signupController', ['$scope', '$state', 'signupService',signupController]);
 
     function signupController($scope, $state, signupService) {
         console.log("Inside signup controller");
@@ -48731,21 +48669,6 @@ function sidebarMenu() {
         $scope.submit = function () {
           signupService.registerUser($scope.user);
         }
-    }
-
-})();
-
-'use strict';
-(function() {
-
-    angular
-        .module('base')
-        .controller('baseController', ['$scope', '$state', 'menuService', baseController]);
-
-    function baseController($scope, $state, menuService) {
-        console.log("Inside Base controller");
-        //calling API and get menus
-        $scope.getMenus = menuService.getSidebarMenuList().userMenu;
     }
 
 })();
@@ -48789,13 +48712,58 @@ function sidebarMenu() {
 
 })();
 
+'use strict';
+(function() {
+
+    angular
+        .module('base')
+        .controller('baseController', ['$scope', '$state', 'menuService', baseController]);
+
+    function baseController($scope, $state, menuService) {
+        console.log("Inside Base controller");
+        //calling API and get menus
+        $scope.getMenus = menuService.getSidebarMenuList().userMenu;
+    }
+
+})();
+
+angular.module('sidebarMenu.directive', [])
+    .directive("sidebarMenu", sidebarMenu);
+
+function sidebarMenu() {
+    return {
+        restrict: "E",
+        scope: {
+            "sidebarMenuList": "="
+        },
+        templateUrl: "app/directives/menu/views/sidebar-menu.html",
+        controller: ['$scope', '$location', function($scope, $location) {
+
+            $scope.subTabMenus = function() {
+                var increment = 0;
+
+                angular.forEach($scope.sidebarMenuList, function(menu) {
+
+                    $scope.sidebarMenuList[increment]["activeCls"] = '';
+
+                    if (menu.action == $location.url().replace(/\//g, '')) {
+                        $scope.sidebarMenuList[increment]["activeCls"] = 'active';
+                    }
+                    increment++;
+                });
+                return $scope.sidebarMenuList;
+            };
+        }]
+    };
+}
+
 
 
 
 'use strict';
 
 angular.module('signupService.service', [])
-    .service('signupService', signupServiceWrapper);
+    .service('signupService', ['$http',signupServiceWrapper]);
 
 function signupServiceWrapper($http) {
 
@@ -48885,6 +48853,40 @@ function dashboardService($http) {
     //END
 };
 
+'use strict';
+
+angular.module('localStorage.service', ['LocalStorageModule'])
+    .service('localStorageServiceWrapper', ['localStorageService', localStorageServiceWrapper]);
+
+function localStorageServiceWrapper(localStorageService) {
+
+    var service = {};
+
+    function set(strName, strSetValue) {
+        return localStorageService.set(strName, strSetValue);
+    }
+
+    function get(strGetName) {
+        return localStorageService.get(strGetName);
+    }
+
+    function isSupported() {
+        return localStorageService.isSupported;
+    }
+
+    function clearAll() {
+        return localStorageService.clearAll();
+    }
+
+    service.set = set;
+    service.get = get;
+    service.isSupported = isSupported;
+    service.clearAll = clearAll;
+
+    return service;
+
+};
+
 angular.module('menu.service', [])
     .factory('menuService', ['$http', menuService]);
 
@@ -48930,41 +48932,40 @@ function menuService($http) {
     //END
 };
 
+
+
 'use strict';
 
-angular.module('localStorage.service', ['LocalStorageModule'])
-    .service('localStorageServiceWrapper', ['localStorageService', localStorageServiceWrapper]);
+(function() {
 
-function localStorageServiceWrapper(localStorageService) {
+    // Declare app level module
+    angular
+        .module('angularClientApp', [
+            'ui.router',
+            'ngAnimate',
+            'angularLazyImg',
+            'ui.bootstrap',
+            'localStorage.service',
+            'signupService.service',
+            //'ngMessages',
+            'config',
+            'auth',
+            'base',
+            'dashboard',
+            'user'
 
-    var service = {};
+        ])
+        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
 
-    function set(strName, strSetValue) {
-        return localStorageService.set(strName, strSetValue);
+    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+        $urlRouterProvider.otherwise('/login');
     }
 
-    function get(strGetName) {
-        return localStorageService.get(strGetName);
-    }
-
-    function isSupported() {
-        return localStorageService.isSupported;
-    }
-
-    function clearAll() {
-        return localStorageService.clearAll();
-    }
-
-    service.set = set;
-    service.get = get;
-    service.isSupported = isSupported;
-    service.clearAll = clearAll;
-
-    return service;
-
-};
-
-
+})();
 
 /**
  * Setting up the web service environment upon environment basis

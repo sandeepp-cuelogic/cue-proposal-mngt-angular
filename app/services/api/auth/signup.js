@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('signupService.service', [])
-    .service('signupService', signupServiceWrapper);
+    .service('signupService', ['$http',signupServiceWrapper]);
 
 function signupServiceWrapper($http) {
 
