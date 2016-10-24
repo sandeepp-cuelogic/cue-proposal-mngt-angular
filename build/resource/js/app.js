@@ -48522,6 +48522,60 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
+'use strict';
+
+(function() {
+
+    // Declare app level module
+    angular
+        .module('angularClientApp', [
+            'ui.router',
+            'ngAnimate',
+            'angularLazyImg',
+            'ui.bootstrap',
+            'localStorage.service',
+            'loginservice.service',
+            'signupService.service',
+            'config',
+            'auth',
+            'base',
+            'dashboard',
+            'proposal',
+            'user'
+
+        ])
+        .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
+        .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
+
+    function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+        $urlRouterProvider.otherwise('/login');
+         $httpProvider.interceptors.push('APIInterceptor');
+    }
+
+    function authService($rootScope, localStorageServiceWrapper) {
+        var service = this;
+        service.request = function(config) {
+            var access_token = localStorageServiceWrapper.get('token');
+            console.log(access_token);
+                if (access_token) {
+                config.headers.Authorization = 'Bearer '+access_token;
+            }
+            return config;
+        };
+        service.responseError = function(response) {
+            if (response.status === 401) {
+                $rootScope.$broadcast('unauthorized');
+            }
+            return response;
+        };
+    }
+
+})();
+
 angular.module('auth', ['ngMessages']);
 
 'use strict';
@@ -48549,56 +48603,6 @@ angular.module('auth', ['ngMessages']);
                     '@': {
                         templateUrl: 'app/modules/auth/views/signup.html',
                         controller: 'signupController'
-                    }
-                }
-            });
-    }
-
-})();
-
-angular.module('dashboard', ['dashboard.service']);
- /*'dashboard.directive'*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('dashboard')
-        .config(['$stateProvider', stateProvider])
-
-    function stateProvider($stateProvider) {
-
-        $stateProvider
-            .state('base.dashboard', {
-                url: '/dashboard',
-                views: {
-                    'content': {
-                        templateUrl: 'app/modules/dashboard/views/dashboard.html',
-                        controller: 'dashboardController'
-                    }
-                }
-            });
-    }
-
-})();
-
-angular.module('user', []);
-(function() {
-    'use strict';
-
-    angular
-        .module('user')
-        .config(['$stateProvider', stateProvider])
-
-    function stateProvider($stateProvider) {
-
-        $stateProvider
-            .state('base.user', {
-                url: '/add/user',
-                views: {
-                    'content': {
-                        templateUrl: 'app/modules/user/views/add_user.html',
-                        controller: 'userController'
                     }
                 }
             });
@@ -48641,88 +48645,75 @@ angular.module('base', ['menu.service', 'sidebarMenu.directive']);
 
 })();
 
-'use strict';
+angular.module('dashboard', ['dashboard.service']);
+ /*'dashboard.directive'*/
 
 (function() {
-
-    angular
-        .module('auth')
-        .controller('loginController', ['$scope', '$state', loginController]);
-
-    function loginController($scope, $state) {
-        console.log("Inside login controller");
-    }
-
-})();
-
-'use strict';
-
-(function() {
-
-    angular
-        .module('auth')
-        .controller('signupController', ['$scope', '$state', 'signupService',signupController]);
-
-    function signupController($scope, $state, signupService) {
-        console.log("Inside signup controller");
-        $scope.user = {};
-        $scope.submit = function () {
-          signupService.registerUser($scope.user);
-        }
-    }
-
-})();
-
-(function() {
-
     'use strict';
 
     angular
         .module('dashboard')
-        .controller('dashboardController', ['$scope', '$state', 'dashboardService', dashboardController]);
+        .config(['$stateProvider', stateProvider])
 
-    function dashboardController($scope, $state, dashboardService) {
-        $scope.blackSpinner = 'resource/images/blackSpinner.gif';
+    function stateProvider($stateProvider) {
 
-        $scope.userList = function() {
-            //calling API and get user list
-            $scope.getUsers = dashboardService.getUserList().userDetails;
-            $scope.subTabMenus = [{
-                'tabMenu': 'All',
-                'action': 'dashboard'
-            }, {
-                'tabMenu': 'Proposals',
-                'action': 'proposals'
-            }]
-        }
+        $stateProvider
+            .state('base.dashboard', {
+                url: '/dashboard',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/dashboard/views/dashboard.html',
+                        controller: 'dashboardController'
+                    }
+                }
+            });
     }
 
 })();
 
-'use strict';
+angular.module('proposal', ['proposal.service']);
 (function() {
+    'use strict';
+
+    angular
+        .module('proposal')
+        .config(['$stateProvider', stateProvider])
+
+    function stateProvider($stateProvider) {
+
+        $stateProvider
+            .state('base.proposal', {
+                url: '/proposal',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/proposal/views/proposal.html',
+                        controller: 'proposalController'
+                    }
+                }
+            });
+    }
+
+})();
+angular.module('user', []);
+(function() {
+    'use strict';
 
     angular
         .module('user')
-        .controller('userController', ['$scope', userController]);
+        .config(['$stateProvider', stateProvider])
 
-    function userController($scope) {
-        $scope.setTitle = 'Add user';
-    }
+    function stateProvider($stateProvider) {
 
-})();
-
-'use strict';
-(function() {
-
-    angular
-        .module('base')
-        .controller('baseController', ['$scope', '$state', 'menuService', baseController]);
-
-    function baseController($scope, $state, menuService) {
-        console.log("Inside Base controller");
-        //calling API and get menus
-        $scope.getMenus = menuService.getSidebarMenuList().userMenu;
+        $stateProvider
+            .state('base.user', {
+                url: '/add/user',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/user/views/add_user.html',
+                        controller: 'userController'
+                    }
+                }
+            });
     }
 
 })();
@@ -48757,13 +48748,166 @@ function sidebarMenu() {
     };
 }
 
+'use strict';
+
+(function() {
+
+    angular
+        .module('auth')
+        .controller('loginController', ['$scope', '$state','loginservice','localStorageServiceWrapper', loginController]);
+
+    function loginController($scope, $state, $loginservice, $localStorageServiceWrapper) {
+        $scope.user = {} ;
+       $scope.LoggedIn = function(){
+         if($scope.user.email && $scope.user.password){
+
+         	$loginservice.validate($scope.user.email,$scope.user.password)
+            .success(function (data, status, headers, config) {
+                 console.log(data) ;
+                 if(data.statusCode == 400) {
+                   // console.log("data") ;
+                   $scope.error = data.message; 
+                 }
+                 else{
+                    $localStorageServiceWrapper.set('token',data.token);
+                    $state.go('base.proposal');
+                 }
+                
+                
+            })
+            .error(function (data, status, header, config) {
+               // console.log("data");
+                
+
+            });
+
+
+         }
+         else{
+         	alert("Please enter username and password.");
+         }
+       }
+    }
+
+})();
+
+'use strict';
+
+(function() {
+
+    angular
+        .module('auth')
+        .controller('signupController', ['$scope', '$state', 'signupService', signupController]);
+
+    function signupController($scope, $state, signupService) {
+        console.log("Inside signup controller");
+        $scope.user = {};
+        $scope.submit = function () {
+          signupService.registerUser($scope.user);
+        }
+    }
+
+})();
+
+'use strict';
+(function() {
+
+    angular
+        .module('base')
+        .controller('baseController', ['$scope', '$state', 'menuService', baseController]);
+
+    function baseController($scope, $state, menuService) {
+        console.log("Inside Base controller");
+        //calling API and get menus
+        $scope.getMenus = menuService.getSidebarMenuList().userMenu;
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('dashboard')
+        .controller('dashboardController', ['$scope', '$state', 'dashboardService', dashboardController]);
+
+    function dashboardController($scope, $state, dashboardService) {
+        $scope.blackSpinner = 'resource/images/blackSpinner.gif';
+
+        $scope.userList = function() {
+            //calling API and get user list
+            $scope.getUsers = dashboardService.getUserList().userDetails;
+            $scope.subTabMenus = [{
+                'tabMenu': 'All',
+                'action': 'dashboard'
+            }, {
+                'tabMenu': 'Proposals',
+                'action': 'proposals'
+            }]
+        }
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('proposal')
+        .controller('proposalController', ['$scope', '$state', 'proposalService', proposalController]);
+
+    function proposalController($scope, $state, proposalService) {
+        $scope.userList = function() {
+
+            //calling API and get user list
+            proposalService.getProposalList()
+            .success(function (data, status, headers, config) {
+                 
+                 if(data.statusCode == 200) {
+                   console.log(data) ;
+                   $scope.getProposals = data.data;
+                 }
+                 else{
+                   // $localStorageServiceWrapper.set('token',data.token);
+                    //$state.go('base.proposal');
+                    console.log("data") ;
+                 }
+                
+                
+            })
+            .error(function (data, status, header, config) {
+              // console.log(data) ;
+                
+
+            });
+            
+        }
+    }
+
+})();
+
+'use strict';
+(function() {
+
+    angular
+        .module('user')
+        .controller('userController', ['$scope', userController]);
+
+    function userController($scope) {
+        $scope.setTitle = 'Add user';
+    }
+
+})();
+
 
 
 
 'use strict';
 
 angular.module('signupService.service', [])
-    .service('signupService', ['$http',signupServiceWrapper]);
+    .service('signupService', signupServiceWrapper);
 
 function signupServiceWrapper($http) {
 
@@ -48853,40 +48997,6 @@ function dashboardService($http) {
     //END
 };
 
-'use strict';
-
-angular.module('localStorage.service', ['LocalStorageModule'])
-    .service('localStorageServiceWrapper', ['localStorageService', localStorageServiceWrapper]);
-
-function localStorageServiceWrapper(localStorageService) {
-
-    var service = {};
-
-    function set(strName, strSetValue) {
-        return localStorageService.set(strName, strSetValue);
-    }
-
-    function get(strGetName) {
-        return localStorageService.get(strGetName);
-    }
-
-    function isSupported() {
-        return localStorageService.isSupported;
-    }
-
-    function clearAll() {
-        return localStorageService.clearAll();
-    }
-
-    service.set = set;
-    service.get = get;
-    service.isSupported = isSupported;
-    service.clearAll = clearAll;
-
-    return service;
-
-};
-
 angular.module('menu.service', [])
     .factory('menuService', ['$http', menuService]);
 
@@ -48932,40 +49042,74 @@ function menuService($http) {
     //END
 };
 
+angular.module('proposal.service', [])
+    .factory('proposalService', ['$http', proposalService]);
+
+
+    function proposalService($http) {
+    	var service = {};
+
+	    service.getProposalList = getProposalList;
+
+	    return service;
+    	function getProposalList(){
+    		 
+        return $http.get('http://172.21.31.243:8000/proposals/1');
+    	}
+	}
+'use strict';
+
+angular.module('localStorage.service', ['LocalStorageModule'])
+    .service('localStorageServiceWrapper', ['localStorageService', localStorageServiceWrapper]);
+
+function localStorageServiceWrapper(localStorageService) {
+
+    var service = {};
+
+    function set(strName, strSetValue) {
+        return localStorageService.set(strName, strSetValue);
+    }
+
+    function get(strGetName) {
+        return localStorageService.get(strGetName);
+    }
+
+    function isSupported() {
+        return localStorageService.isSupported;
+    }
+
+    function clearAll() {
+        return localStorageService.clearAll();
+    }
+
+    service.set = set;
+    service.get = get;
+    service.isSupported = isSupported;
+    service.clearAll = clearAll;
+
+    return service;
+
+};
 
 
 'use strict';
 
-(function() {
+angular.module('loginservice.service', [])
+    .service('loginservice', loginservicewrap);
 
-    // Declare app level module
-    angular
-        .module('angularClientApp', [
-            'ui.router',
-            'ngAnimate',
-            'angularLazyImg',
-            'ui.bootstrap',
-            'localStorage.service',
-            'signupService.service',
-            //'ngMessages',
-            'config',
-            'auth',
-            'base',
-            'dashboard',
-            'user'
-
-        ])
-        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
-
-    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });
-        $urlRouterProvider.otherwise('/login');
+    function loginservicewrap($http){
+    	var service = {};
+    	
+		function validate(email, password){
+			 var data = { email: email, password: password};
+			 var config = {};
+			
+			return $http.post('http://172.21.31.243:8000/login', data);
+            
+		}
+		service.validate = validate;
+   		return service;
     }
-
-})();
 
 /**
  * Setting up the web service environment upon environment basis
