@@ -16,8 +16,8 @@
             'auth',
             'base',
             'dashboard',
-            'user'
-
+            'user',
+            'proposalmanagement'
         ])
         .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
 

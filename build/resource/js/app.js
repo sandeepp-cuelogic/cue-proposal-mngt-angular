@@ -48540,38 +48540,17 @@ function ngMessageDirectiveFactory() {
             'auth',
             'base',
             'dashboard',
-            'proposal',
-            'user'
-
+            'user',
+            'proposalmanagement'
         ])
-        .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
-        .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
+        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
 
-    function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
+    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
         $urlRouterProvider.otherwise('/login');
-         $httpProvider.interceptors.push('APIInterceptor');
-    }
-
-    function authService($rootScope, localStorageServiceWrapper) {
-        var service = this;
-        service.request = function(config) {
-            var access_token = localStorageServiceWrapper.get('token');
-            console.log(access_token);
-                if (access_token) {
-                config.headers.Authorization = 'Bearer '+access_token;
-            }
-            return config;
-        };
-        service.responseError = function(response) {
-            if (response.status === 401) {
-                $rootScope.$broadcast('unauthorized');
-            }
-            return response;
-        };
     }
 
 })();
@@ -48597,10 +48576,10 @@ angular.module('auth', ['ngMessages']);
                     }
                 }
             })
-            .state('signup', {
+            .state('base.signup', {
                 url: '/signup',
                 views: {
-                    '@': {
+                    'content': {
                         templateUrl: 'app/modules/auth/views/signup.html',
                         controller: 'signupController'
                     }
@@ -48633,9 +48612,9 @@ angular.module('base', ['menu.service', 'sidebarMenu.directive']);
                     'header@base': {
                         templateUrl: 'app/modules/base/views/header.html',
                     },
-                    'sidebar@base': {
+                  /*  'sidebar@base': {
                         templateUrl: 'app/modules/base/views/sidebar.html',
-                    },
+                    },*/
                     'footer@base': {
                         templateUrl: 'app/modules/base/views/footer.html',
                     }
@@ -48662,7 +48641,7 @@ angular.module('dashboard', ['dashboard.service']);
                 url: '/dashboard',
                 views: {
                     'content': {
-                        templateUrl: 'app/modules/dashboard/views/dashboard.html',
+                        templateUrl: 'app/modules/dashboard/views/dashboard1.html',
                         controller: 'dashboardController'
                     }
                 }
@@ -48671,29 +48650,49 @@ angular.module('dashboard', ['dashboard.service']);
 
 })();
 
-angular.module('proposal', ['proposal.service']);
+angular.module('proposalmanagement', []);
+
+'use strict';
 (function() {
-    'use strict';
 
     angular
-        .module('proposal')
-        .config(['$stateProvider', stateProvider])
+        .module('proposalmanagement')
+        .config(['$stateProvider', stateProvider]);
 
     function stateProvider($stateProvider) {
 
         $stateProvider
-            .state('base.proposal', {
-                url: '/proposal',
+            .state('base.proposalview', {
+                url: '/proposalview',
                 views: {
                     'content': {
-                        templateUrl: 'app/modules/proposal/views/proposal.html',
-                        controller: 'proposalController'
+                        templateUrl: 'app/modules/proposalmanagement/views/proposal_view.html',
+                        controller: 'proposalmanagementController'
+                    }
+                }
+            })
+            .state('base.proposalview.info', {
+                url: '/proposalinfo',
+                views: {
+                    'proposalSec': {
+                        templateUrl: 'app/modules/proposalmanagement/views/proposal_info.html',
+                        controller: 'proposalmanagementController'
+                    }
+                }
+            })
+            .state('base.proposalview.spec', {
+                url: '/proposalspec',
+                views: {
+                    'proposalSec': {
+                        templateUrl: 'app/modules/proposalmanagement/views/proposal_spec.html',
+                        controller: 'proposalmanagementController'
                     }
                 }
             });
     }
 
 })();
+
 angular.module('user', []);
 (function() {
     'use strict';
@@ -48770,7 +48769,7 @@ function sidebarMenu() {
                  }
                  else{
                     $localStorageServiceWrapper.set('token',data.token);
-                    $state.go('base.proposal');
+                    $state.go('base.dashboard');
                  }
                 
                 
@@ -48797,7 +48796,7 @@ function sidebarMenu() {
 
     angular
         .module('auth')
-        .controller('signupController', ['$scope', '$state', 'signupService', signupController]);
+        .controller('signupController', ['$scope', '$state', 'signupService',signupController]);
 
     function signupController($scope, $state, signupService) {
         console.log("Inside signup controller");
@@ -48855,34 +48854,20 @@ function sidebarMenu() {
     'use strict';
 
     angular
-        .module('proposal')
-        .controller('proposalController', ['$scope', '$state', 'proposalService', proposalController]);
+        .module('proposalmanagement')
+        .controller('proposalmanagementController', ['$scope', '$state',  dashboardController]);
 
-    function proposalController($scope, $state, proposalService) {
+    function dashboardController($scope, $state) {
         $scope.userList = function() {
-
             //calling API and get user list
-            proposalService.getProposalList()
-            .success(function (data, status, headers, config) {
-                 
-                 if(data.statusCode == 200) {
-                   console.log(data) ;
-                   $scope.getProposals = data.data;
-                 }
-                 else{
-                   // $localStorageServiceWrapper.set('token',data.token);
-                    //$state.go('base.proposal');
-                    console.log("data") ;
-                 }
-                
-                
-            })
-            .error(function (data, status, header, config) {
-              // console.log(data) ;
-                
-
-            });
-            
+          //  $scope.getUsers = dashboardService.getUserList().userDetails;
+            $scope.subTabMenus = [{
+                'tabMenu': 'All',
+                'action': 'dashboard'
+            }, {
+                'tabMenu': 'Proposals',
+                'action': 'proposals'
+            }]
         }
     }
 
@@ -48907,7 +48892,7 @@ function sidebarMenu() {
 'use strict';
 
 angular.module('signupService.service', [])
-    .service('signupService', signupServiceWrapper);
+    .service('signupService', ['$http',signupServiceWrapper]);
 
 function signupServiceWrapper($http) {
 
@@ -49042,21 +49027,6 @@ function menuService($http) {
     //END
 };
 
-angular.module('proposal.service', [])
-    .factory('proposalService', ['$http', proposalService]);
-
-
-    function proposalService($http) {
-    	var service = {};
-
-	    service.getProposalList = getProposalList;
-
-	    return service;
-    	function getProposalList(){
-    		 
-        return $http.get('http://172.21.31.243:8000/proposals/1');
-    	}
-	}
 'use strict';
 
 angular.module('localStorage.service', ['LocalStorageModule'])
