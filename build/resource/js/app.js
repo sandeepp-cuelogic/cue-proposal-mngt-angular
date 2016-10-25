@@ -48540,17 +48540,38 @@ function ngMessageDirectiveFactory() {
             'auth',
             'base',
             'dashboard',
+            'proposal',
             'user'
 
         ])
-        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
+        .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
+        .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
 
-    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
+    function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
         $urlRouterProvider.otherwise('/login');
+         $httpProvider.interceptors.push('APIInterceptor');
+    }
+
+    function authService($rootScope, localStorageServiceWrapper) {
+        var service = this;
+        service.request = function(config) {
+            var access_token = localStorageServiceWrapper.get('token');
+            console.log(access_token);
+                if (access_token) {
+                config.headers.Authorization = 'Bearer '+access_token;
+            }
+            return config;
+        };
+        service.responseError = function(response) {
+            if (response.status === 401) {
+                $rootScope.$broadcast('unauthorized');
+            }
+            return response;
+        };
     }
 
 })();
@@ -48612,9 +48633,9 @@ angular.module('base', ['menu.service', 'sidebarMenu.directive']);
                     'header@base': {
                         templateUrl: 'app/modules/base/views/header.html',
                     },
-                    'sidebar@base': {
+                    /*'sidebar@base': {
                         templateUrl: 'app/modules/base/views/sidebar.html',
-                    },
+                    },*/
                     'footer@base': {
                         templateUrl: 'app/modules/base/views/footer.html',
                     }
@@ -48650,6 +48671,29 @@ angular.module('dashboard', ['dashboard.service']);
 
 })();
 
+angular.module('proposal', ['proposal.service']);
+(function() {
+    'use strict';
+
+    angular
+        .module('proposal')
+        .config(['$stateProvider', stateProvider])
+
+    function stateProvider($stateProvider) {
+
+        $stateProvider
+            .state('base.proposal', {
+                url: '/proposal',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/proposal/views/proposal.html',
+                        controller: 'proposalController'
+                    }
+                }
+            });
+    }
+
+})();
 angular.module('user', []);
 (function() {
     'use strict';
@@ -48726,7 +48770,7 @@ function sidebarMenu() {
                  }
                  else{
                     $localStorageServiceWrapper.set('token',data.token);
-                    $state.go('base.dashboard');
+                    $state.go('base.proposal');
                  }
                 
                 
@@ -48806,6 +48850,57 @@ function sidebarMenu() {
 
 })();
 
+(function() {
+
+    'use strict';
+
+    angular
+        .module('proposal')
+        .controller('proposalController', ['$scope', '$state', 'proposalService', proposalController]);
+
+    function proposalController($scope, $state, proposalService) {
+        $scope.userList = function() {
+            
+            proposalService.getProposalList()
+            .success(function (data, status, headers, config) {
+                 console.log(data);
+                 if(data.statusCode == 200) {
+                  $scope.getProposals = data.data;
+                  proposalService.getUserList()
+                  .success(function (data, status, headers, config) {
+                      $scope.users =  data; 
+                      //$scope.selectitem = $scope.users[8];
+                    })
+                    .error(function (data, status, header, config) {
+                     
+                    });
+                 }
+                 else{
+                   console.log("data") ;
+                 }
+                
+            })
+            .error(function (data, status, header, config) {
+              
+            });
+            
+        };
+        $scope.updateAssignee = function(item,proposal_id) {
+            proposalService.updateAssignedUser(item.id,proposal_id)
+            .success(function (data, status, headers, config) {
+                      
+
+                    })
+                    .error(function (data, status, header, config) {
+                     
+                    });
+        }
+    };
+
+
+
+})();
+
 'use strict';
 (function() {
 
@@ -48818,38 +48913,6 @@ function sidebarMenu() {
     }
 
 })();
-
-
-
-
-'use strict';
-
-angular.module('signupService.service', [])
-    .service('signupService', signupServiceWrapper);
-
-function signupServiceWrapper($http) {
-
-  var service = {};
-
-  function registerUser(data) {
-      console.log(data);
-      $http.post('http://172.21.31.243:8000/registration', data)
-        .then(function successCallback(response) {
-          console.log(response);
-          // this callback will be called asynchronously
-          // when the response is available
-        }, function errorCallback(response) {
-          console.log(response);
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-        });
-  }
-
-  service.registerUser = registerUser;
-
-  return service;
-
-};
 
 angular.module('dashboard.service', [])
     .factory('dashboardService', ['$http', dashboardService]);
@@ -48915,6 +48978,38 @@ function dashboardService($http) {
     //END
 };
 
+
+
+
+'use strict';
+
+angular.module('signupService.service', [])
+    .service('signupService', signupServiceWrapper);
+
+function signupServiceWrapper($http) {
+
+  var service = {};
+
+  function registerUser(data) {
+      console.log(data);
+      $http.post('http://172.21.31.243:8000/registration', data)
+        .then(function successCallback(response) {
+          console.log(response);
+          // this callback will be called asynchronously
+          // when the response is available
+        }, function errorCallback(response) {
+          console.log(response);
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
+  }
+
+  service.registerUser = registerUser;
+
+  return service;
+
+};
+
 angular.module('menu.service', [])
     .factory('menuService', ['$http', menuService]);
 
@@ -48960,6 +49055,32 @@ function menuService($http) {
     //END
 };
 
+angular.module('proposal.service', [])
+    .factory('proposalService', ['$http', proposalService]);
+
+
+    function proposalService($http) {
+    	var service = {};
+
+	    service.getProposalList = getProposalList;
+        service.getUserList = getUserList;
+        service.updateAssignedUser = updateAssignedUser;
+
+	    return service;
+    	function getProposalList(){
+    		 
+        return $http.get('http://172.21.31.243:8000/proposals/1');
+    	}
+
+        function getUserList(){
+            return $http.get('http://172.21.31.243:8000/users');
+        }
+
+        function updateAssignedUser(user_id,proposal_id){
+            data = {id: proposal_id, assigned_to: user_id};
+            return $http.put('http://172.21.31.243:8000/proposal', data);
+        }
+	}
 'use strict';
 
 angular.module('localStorage.service', ['LocalStorageModule'])

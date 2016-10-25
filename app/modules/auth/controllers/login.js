@@ -20,7 +20,7 @@
                  }
                  else{
                     $localStorageServiceWrapper.set('token',data.token);
-                    $state.go('base.dashboard');
+                    $state.go('base.proposal');
                  }
                 
                 
