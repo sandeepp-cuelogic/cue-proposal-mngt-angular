@@ -4,17 +4,17 @@
 
     angular
         .module('proposal')
-        .controller('proposalController', ['$scope', '$state', 'proposalService', proposalController]);
+        .controller('proposalController', ['$scope', '$state','proposals','proposalService', proposalController]);
 
-    function proposalController($scope, $state, proposalService) {
+    function proposalController($scope, $state,proposals,proposalService) {
         $scope.userList = function() {
-            
-            proposalService.getProposalList()
+            //console.log(proposalService);
+            proposals.getProposalList()
             .success(function (data, status, headers, config) {
                  console.log(data);
                  if(data.statusCode == 200) {
                   $scope.getProposals = data.data;
-                  proposalService.getUserList()
+                  proposals.getUserList()
                   .success(function (data, status, headers, config) {
                       $scope.users =  data; 
                       //$scope.selectitem = $scope.users[8];

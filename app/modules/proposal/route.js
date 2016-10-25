@@ -15,6 +15,20 @@
                         templateUrl: 'app/modules/proposal/views/proposal.html',
                         controller: 'proposalController'
                     }
+                },
+                resolve: {
+                proposals: function ($http,configProvider) {
+                  return {
+                    getProposalList: function(){
+                        //console.log(configProvider);
+                        return $http({method: 'GET', url: configProvider.appUrl+'/proposals/1?page=1'});
+                    },
+                    getUserList: function(){
+                        return $http({method: 'GET', url: configProvider.appUrl+'/users'});
+                    }
+                  }
+                  
+                }
                 }
             })
             .state('base.proposalview', {

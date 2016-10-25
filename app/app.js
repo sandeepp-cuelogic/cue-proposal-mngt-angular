@@ -10,18 +10,16 @@
             'angularLazyImg',
             'ui.bootstrap',
             'localStorage.service',
-            'loginservice.service',
             'signupService.service',
             'config',
             'auth',
             'base',
-            'dashboard',
+            //'dashboard',
             'proposal',
-            'user'
+            //'user'
 
         ])
         .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
-        .constant('domain','http://172.21.31.243:8000')
         .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
 
 
