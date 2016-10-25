@@ -48545,6 +48545,7 @@ function ngMessageDirectiveFactory() {
 
         ])
         .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
+        .constant('domain','http://172.21.31.243:8000')
         .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
 
     function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
@@ -48914,6 +48915,38 @@ function sidebarMenu() {
 
 })();
 
+
+
+
+'use strict';
+
+angular.module('signupService.service', [])
+    .service('signupService', signupServiceWrapper);
+
+function signupServiceWrapper($http) {
+
+  var service = {};
+
+  function registerUser(data) {
+      console.log(data);
+      $http.post('http://172.21.31.243:8000/registration', data)
+        .then(function successCallback(response) {
+          console.log(response);
+          // this callback will be called asynchronously
+          // when the response is available
+        }, function errorCallback(response) {
+          console.log(response);
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
+  }
+
+  service.registerUser = registerUser;
+
+  return service;
+
+};
+
 angular.module('dashboard.service', [])
     .factory('dashboardService', ['$http', dashboardService]);
 
@@ -48978,38 +49011,6 @@ function dashboardService($http) {
     //END
 };
 
-
-
-
-'use strict';
-
-angular.module('signupService.service', [])
-    .service('signupService', signupServiceWrapper);
-
-function signupServiceWrapper($http) {
-
-  var service = {};
-
-  function registerUser(data) {
-      console.log(data);
-      $http.post('http://172.21.31.243:8000/registration', data)
-        .then(function successCallback(response) {
-          console.log(response);
-          // this callback will be called asynchronously
-          // when the response is available
-        }, function errorCallback(response) {
-          console.log(response);
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-        });
-  }
-
-  service.registerUser = registerUser;
-
-  return service;
-
-};
-
 angular.module('menu.service', [])
     .factory('menuService', ['$http', menuService]);
 
@@ -49056,10 +49057,10 @@ function menuService($http) {
 };
 
 angular.module('proposal.service', [])
-    .factory('proposalService', ['$http', proposalService]);
+    .factory('proposalService', ['$http','domain', proposalService]);
 
 
-    function proposalService($http) {
+    function proposalService($http,domain) {
     	var service = {};
 
 	    service.getProposalList = getProposalList;
@@ -49069,16 +49070,16 @@ angular.module('proposal.service', [])
 	    return service;
     	function getProposalList(){
     		 
-        return $http.get('http://172.21.31.243:8000/proposals/1');
+        return $http.get(domain+'/proposals/1');
     	}
 
         function getUserList(){
-            return $http.get('http://172.21.31.243:8000/users');
+            return $http.get(domain+'/users');
         }
 
         function updateAssignedUser(user_id,proposal_id){
             data = {id: proposal_id, assigned_to: user_id};
-            return $http.put('http://172.21.31.243:8000/proposal', data);
+            return $http.put(domain+'/proposal', data);
         }
 	}
 'use strict';
@@ -49121,14 +49122,14 @@ function localStorageServiceWrapper(localStorageService) {
 angular.module('loginservice.service', [])
     .service('loginservice', loginservicewrap);
 
-    function loginservicewrap($http){
+    function loginservicewrap($http,domain){
     	var service = {};
     	
 		function validate(email, password){
 			 var data = { email: email, password: password};
 			 var config = {};
 			
-			return $http.post('http://172.21.31.243:8000/login', data);
+			return $http.post(domain+'/login', data);
             
 		}
 		service.validate = validate;
