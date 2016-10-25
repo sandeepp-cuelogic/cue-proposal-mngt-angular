@@ -19,7 +19,8 @@
             'user',
             'proposalmanagement'
         ])
-        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
+        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase])
+        .constant('domain','http://172.21.31.243:8000/');
 
     function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
         $locationProvider.html5Mode({

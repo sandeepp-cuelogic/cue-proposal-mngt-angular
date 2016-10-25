@@ -4,19 +4,15 @@
 
     angular
         .module('proposalmanagement')
-        .controller('proposalmanagementController', ['$scope', '$state',  dashboardController]);
+        .controller('proposalmanagementController', ['$scope', '$state', '$stateParams',  dashboardController]);
 
-    function dashboardController($scope, $state) {
-        $scope.userList = function() {
-            //calling API and get user list
-          //  $scope.getUsers = dashboardService.getUserList().userDetails;
-            $scope.subTabMenus = [{
-                'tabMenu': 'All',
-                'action': 'dashboard'
-            }, {
-                'tabMenu': 'Proposals',
-                'action': 'proposals'
-            }]
+    function dashboardController($scope, $state, $stateParams) {
+        $scope.proposal = {};
+        if($stateParams.Id) {
+          $scope.setTitle = 'Edit user';
+          $scope.empData = employeeService.getEmpList($stateParams.Id);
+        }else{
+          $scope.setTitle = 'Add user';
         }
     }
 

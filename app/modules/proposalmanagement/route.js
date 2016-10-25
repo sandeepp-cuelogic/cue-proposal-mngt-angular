@@ -10,6 +10,7 @@
         $stateProvider
             .state('base.proposalview', {
                 url: '/proposalview',
+                abstract:true,
                 views: {
                     'content': {
                         templateUrl: 'app/modules/proposalmanagement/views/proposal_view.html',
