@@ -17,10 +17,10 @@
                     }
                 }
             })
-            .state('signup', {
+            .state('base.signup', {
                 url: '/signup',
                 views: {
-                    '@': {
+                    'content': {
                         templateUrl: 'app/modules/auth/views/signup.html',
                         controller: 'signupController'
                     }

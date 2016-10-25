@@ -12,7 +12,7 @@
                 url: '/dashboard',
                 views: {
                     'content': {
-                        templateUrl: 'app/modules/dashboard/views/dashboard.html',
+                        templateUrl: 'app/modules/dashboard/views/dashboard1.html',
                         controller: 'dashboardController'
                     }
                 }

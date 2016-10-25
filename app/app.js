@@ -24,6 +24,7 @@
         .constant('domain','http://172.21.31.243:8000')
         .service('APIInterceptor',['$rootScope','localStorageServiceWrapper',authService] );
 
+
     function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode({
             enabled: true,
