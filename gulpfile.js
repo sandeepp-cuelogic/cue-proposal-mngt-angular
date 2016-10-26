@@ -29,6 +29,7 @@ var gulp = require('gulp-param')(require('gulp'), process.argv),
             'bower_components/angular-messages/angular-messages.js',
             'app/**/**/*.js',
             'app/modules/**/**/*.js',
+            'app/directive/*.js',
             'app/app.js'
         ],
         appImg: 'assets/images/*',

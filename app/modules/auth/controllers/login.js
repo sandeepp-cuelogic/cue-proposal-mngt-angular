@@ -16,18 +16,18 @@
                  console.log(data) ;
                  if(data.statusCode == 400) {
                    // console.log("data") ;
-                   $scope.error = data.message; 
+                   $scope.error = data.message;
                  }
                  else{
                     $localStorageServiceWrapper.set('token',data.token);
                     $state.go('base.proposal');
                  }
-                
-                
+
+
             })
             .error(function (data, status, header, config) {
                // console.log("data");
-                
+
 
             });
 

@@ -2,10 +2,10 @@
 <div class="container">
         <div class="row login-container">
                 <h2>LogIn</h2>
-                               
-            
+
+
             <div class="">
-               
+
                 <form ng-submit="loginform.$valid && LoggedIn()" id="login-form" class="login-form"  name="loginform">
                     <div class="row">
                         <div class="form-group col-md-12">
@@ -34,6 +34,10 @@
                         <div class="col-md-12 text-center">
                             <input type="submit" name="submit"  class="btn btn-primary btn-cons" value="Login">
                         </div>
+                        <div class="col-md-12 text-center">
+                          <a ui-sref="base.signup" class="btn btn-primary btn-cons" role="button">Sign up</a>
+                            <!--<input type="button" name="signup"  class="btn btn-primary btn-cons" value="Sign up">-->
+                        </div>
                     </div>
                      <div class="form-label"> {{error}}</div>
                 </form>
@@ -41,4 +45,3 @@
             </div>
         </div>
     </div>
-

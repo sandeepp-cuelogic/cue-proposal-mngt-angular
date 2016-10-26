@@ -18,6 +18,7 @@
                     },
                     'header@base': {
                         templateUrl: 'app/modules/base/views/header.html',
+                        controller: 'baseController'
                     },
 
                   /*  'sidebar@base': {
