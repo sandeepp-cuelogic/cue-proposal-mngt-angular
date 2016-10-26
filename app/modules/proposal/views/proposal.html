@@ -32,7 +32,7 @@
                                        
                                         <td class="v-align-middle"><span class="muted">{{singleUser.Proposals.title}}</span></td>
                                         <td class="v-align-middle">
-                                            <select ng-model="singleUser.User" ng-options="item.first_name for item in users track by item.id" ng-change="updateAssignee(singleUser.User,{{singleUser.Proposals.id}})">
+                                            <select ng-model="singleUser.User" ng-options="item.name for item in users track by item.id" ng-change="updateAssignee(singleUser.User,{{singleUser.Proposals.id}})">
                                           <option value="">Select a type</option>
                                         </select>
                                         </td>

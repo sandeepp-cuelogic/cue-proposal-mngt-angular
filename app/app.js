@@ -10,7 +10,6 @@
             'angularLazyImg',
             'ui.bootstrap',
             'localStorage.service',
-            'loginservice.service',
             'signupService.service',
             'config',
             'auth',
@@ -26,6 +25,7 @@
         .run(function($rootScope) {
             $rootScope.message = '';
         });
+
 
 
     function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {

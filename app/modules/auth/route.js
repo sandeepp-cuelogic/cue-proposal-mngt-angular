@@ -8,10 +8,10 @@
     function stateProvider($stateProvider) {
 
         $stateProvider
-            .state('login', {
+            .state('base.login', {
                 url: '/login',
                 views: {
-                    '@': {
+                    'content': {
                         templateUrl: 'app/modules/auth/views/login.html',
                         controller: 'loginController'
                     }

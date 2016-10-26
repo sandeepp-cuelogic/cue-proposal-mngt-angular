@@ -11,8 +11,7 @@
 
     function configProvider() {
         var environment = {
-            'privateAppUrl': 'http://localhost:4000/app/#/',
-            'publicAppUrl': 'http://localhost:3000/app/#/',
+            'appUrl': 'http://172.21.31.243:8000'
         };
 
         this.$get = function() {

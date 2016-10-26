@@ -1,1 +1,1 @@
-angular.module('auth', ['ngMessages']);
+angular.module('auth', ['ngMessages','login.service']);
