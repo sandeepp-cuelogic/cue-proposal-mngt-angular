@@ -31,6 +31,16 @@
                 }
                 }
             })
+
+            .state('base.proposalform', {
+                url: '/proposalform',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/proposal/views/proposal_form.html',
+                        controller: 'proposalformController'
+                    }
+                }
+            })
             .state('base.proposalview', {
                 url: '/proposalview',
                 abstract:true,

@@ -5,6 +5,7 @@
     angular
         .module('proposal')
         .controller('proposalController', ['$scope', '$state','proposals','proposalService', proposalController]);
+        
 
     function proposalController($scope, $state,proposals,proposalService) {
         $scope.userList = function() {

@@ -16,6 +16,7 @@
             'base',
             //'dashboard',
             'proposal',
+            
             //'user'
 
         ])
