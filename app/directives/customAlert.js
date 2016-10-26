@@ -3,18 +3,15 @@
 (function() {
 
     angular.module('angularClientApp')
-    .directive('customalert',customAlert);
+    .directive('customalert',['$rootScope','$interval',customAlert]);
 
-    function customAlert() {
+    function customAlert($rootScope, $interval) {
         return {
-          template : '<span>{{message}}</span>'
-        }
-
-        /*{
-          templateUrl: function(elem, attr) {
-            return '<span style="'+attr.color+'" >{{message}}</span>';
+          template : '<span>{{message}}</span>',
+          link: function() {
+            $interval(function () { $rootScope.message = ''; }, 5000);
           }
-        };*/
+        }
     }
 
 })();
