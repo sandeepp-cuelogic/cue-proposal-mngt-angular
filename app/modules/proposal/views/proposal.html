@@ -3,7 +3,6 @@
                     <h3>Proposal</h3>
                 </div>
                 <div id="userList"  ng-init="userList()">
-                
                     <div class="row">
                     <div class="col-md-12">
                         <div class="grid simple">
@@ -20,7 +19,7 @@
                             <table class="table no-more-tables">
                                 <thead>
                                     <tr>
-                                       
+
                                         <th style="width:22%">Proposal Name</th>
                                         <th style="width:16%">Assigned To</th>
                                         <th style="width:28%">Client Name</th>
@@ -29,8 +28,8 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="singleUser in getProposals">
-                                       
-                                        <td class="v-align-middle"><span class="muted">{{singleUser.Proposals.title}}</span></td>
+
+                                        <td class="v-align-middle"><span class="muted"><a ui-sref="base.proposalview.info({Id : singleUser.Proposals.id})"> {{singleUser.Proposals.title}} </a></span></td>
                                         <td class="v-align-middle">
                                             <select ng-model="singleUser.User" ng-options="item.name for item in users track by item.id" ng-change="updateAssignee(singleUser.User,{{singleUser.Proposals.id}})">
                                           <option value="">Select a type</option>
@@ -45,16 +44,16 @@
                                                 </a>
                                                 <a data-trigger="focus" data-popover-content="#popover-content" data-placement="bottom" rel="popover" href="javascript:;" class="fa fa-times popover-close">
                                                     <div id="popover-content" class="hide">
-                                                        
+
                                                         <button type="button" class="btn-yes remove btn btn-primary">YES</button>
                                                         <button type="button" class="btn-no btn btn-default">NO</button>
                                                     </div>
                                                 </a>
                                             </div>
-                                        </td> 
+                                        </td>
                                     </tr>
-                                    
-                                    
+
+
                                 </tbody>
                                 </table>
                             </div>

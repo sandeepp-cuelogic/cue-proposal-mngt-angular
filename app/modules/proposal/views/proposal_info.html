@@ -1,1 +1,20 @@
-page 2
+<div ng-init="proposalInfo()" >
+    <table border="1" width="50%">
+      <tr>
+        <td>Title</td>
+        <td>{{proposalDetails.P.title}}</td>
+      </tr>
+      <tr>
+        <td>Client</td>
+        <td>{{proposalDetails.C.name}}</td>
+      </tr>
+      <tr>
+        <td>Assigned Lead</td>
+        <td>{{proposalDetails.U.name}}</td>
+      </tr>
+      <tr>
+        <td>More Info</td>
+        <td>{{proposalDetails.P.more_info}}</td>
+      </tr>
+    </table>
+</div>
