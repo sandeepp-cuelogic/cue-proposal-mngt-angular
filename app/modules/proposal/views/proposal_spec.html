@@ -1,1 +1,12 @@
-page 1
+<div ng-repeat="specs in proposalDetails.specifications">
+    <table border="1" width="50%">
+      <tr>
+        <td>Specification Title</td>
+        <td>{{specs.title}}</td>
+      </tr>
+      <tr>
+        <td>Info</td>
+        <td>{{specs.info}}</td>
+      </tr>
+    </table>
+</div>

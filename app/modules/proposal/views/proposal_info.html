@@ -1,20 +1,20 @@
-<div ng-init="proposalInfo()" >
+<div >
     <table border="1" width="50%">
       <tr>
         <td>Title</td>
-        <td>{{proposalDetails.P.title}}</td>
+        <td>{{proposalDetails.proposal.Proposal.title}}</td>
       </tr>
       <tr>
         <td>Client</td>
-        <td>{{proposalDetails.C.name}}</td>
+        <td>{{proposalDetails.proposal.Client.name}}</td>
       </tr>
       <tr>
         <td>Assigned Lead</td>
-        <td>{{proposalDetails.U.name}}</td>
+        <td>{{proposalDetails.proposal.User.name}}</td>
       </tr>
       <tr>
         <td>More Info</td>
-        <td>{{proposalDetails.P.more_info}}</td>
+        <td>{{proposalDetails.proposal.Proposal.more_info}}</td>
       </tr>
     </table>
 </div>

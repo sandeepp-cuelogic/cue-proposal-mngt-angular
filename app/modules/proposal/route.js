@@ -42,8 +42,13 @@
                     }
                 },
                 resolve: {
-                  proposals: function xyz() {
-                    return '';
+                  proposals: function ($http,configProvider,$stateParams) {
+                    return {
+                      getProposalInfo: function(){
+                          return $http({method: 'GET', url: configProvider.appUrl + '/proposal/' + $stateParams.Id});
+                      }
+                    }
+
                   }
                 }
             })
