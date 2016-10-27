@@ -1,1 +1,13 @@
-page 1
+<ul class="spec_list" ng-show="specifications.length">
+	<li ng-repeat="spec in specifications">
+		<h3>{{spec.title}}</h3>
+
+		<div class="col-md-6">
+			<p ng-bind="spec.info"></p>	
+		</div>
+
+	</li>
+</ul>
+<div ng-show="!specifications.length">
+	<a ui-sref="base.proposalview.spec_form">Create the new specifications </a>
+</div>

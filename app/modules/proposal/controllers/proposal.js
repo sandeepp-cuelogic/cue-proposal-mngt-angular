@@ -5,7 +5,7 @@
     angular
         .module('proposal')
         .controller('proposalController', ['$scope', '$state','proposals','proposalService', proposalController])
-        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams','proposalService', proposalViewController]);
+        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams','proposalService','proposalDetails', proposalViewController]);
 
     function proposalController($scope, $state,proposals,proposalService) {
         $scope.userList = function() {
@@ -28,13 +28,12 @@
                  else{
                    console.log("data") ;
                  }
-
             })
             .error(function (data, status, header, config) {
 
             });
-
         };
+        
         $scope.updateAssignee = function(item,proposal_id) {
             proposalService.updateAssignedUser(item.id,proposal_id)
             .success(function (data, status, headers, config) {
@@ -47,12 +46,14 @@
         }
     };
 
-    function proposalViewController($scope, $rootScope, $state, $stateParams, proposalService){
-        $scope.proposalId = $stateParams.Id;
-        $scope.proposalInfo = function(){
+    function proposalViewController($scope, $rootScope, $state, $stateParams, proposalService,proposalDetails){
+        //$scope.proposal = proposalDetails ;
+        $scope.specifications = proposalDetails.data.data.specifications ;
+        $scope.proposalId = $stateParams.Id ;
+        $scope.proposalInfo = function() {
           proposalService.getProposalDetails($scope.proposalId)
             .success(function (resp) {
-              $scope.proposalDetails =   resp.data.proposal;
+              $scope.proposalDetails = resp.data.proposal ;
             })
             .error(function (data, status, header, config) {
               $state.go('base.proposal');

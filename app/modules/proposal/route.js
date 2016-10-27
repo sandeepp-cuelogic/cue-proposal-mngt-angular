@@ -6,7 +6,6 @@
         .config(['$stateProvider', stateProvider])
 
     function stateProvider($stateProvider) {
-
         $stateProvider
             .state('base.proposal', {
             url: '/proposal',
@@ -18,17 +17,15 @@
                 },
                 resolve: {
                 proposals: function ($http,configProvider) {
-                  return {
-                    getProposalList: function(){
-                        //console.log(configProvider);
-                        return $http({method: 'GET', url: configProvider.appUrl+'/proposals/1?page=1'});
-                    },
-                    getUserList: function(){
-                        return $http({method: 'GET', url: configProvider.appUrl+'/users'});
+                      return {
+                        getProposalList: function() {
+                            return $http({ method: 'GET', url: configProvider.appUrl+'/proposals/1?page=1' });
+                        },
+                        getUserList: function() {
+                            return $http({method: 'GET', url: configProvider.appUrl+'/users'});
+                        }
+                      }
                     }
-                  }
-
-                }
                 }
             })
             .state('base.proposalview', {
@@ -42,8 +39,13 @@
                     }
                 },
                 resolve: {
-                  proposals: function xyz() {
-                    return '';
+                  proposalDetails: function(configProvider , $stateParams,$http ) {
+                    console.log("proposalDetails Resolve called");
+                    var url = configProvider.appUrl +'/proposal/'+$stateParams.Id;
+                    return $http.get(url).then(function(proposalData){
+                        console.log(proposalData, "Proposal data found");
+                        return proposalData;
+                    });
                   }
                 }
             })
@@ -64,6 +66,10 @@
                         controller: 'proposalViewController'
                     }
                 }
+            })
+            .state('base.proposalview.spec_form', {
+                url: '/spec_form/:Id?',
+                templateUrl: 'app/modules/proposal/views/specification_form.html'
             });
     }
 
