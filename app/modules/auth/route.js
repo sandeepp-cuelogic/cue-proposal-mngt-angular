@@ -17,6 +17,15 @@
                     }
                 }
             })
+            .state('base.logout', {
+                url: '/logout',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/auth/views/logout.html',
+                        controller: 'loginController'
+                    }
+                }
+            })
             .state('base.signup', {
                 url: '/signup',
                 views: {

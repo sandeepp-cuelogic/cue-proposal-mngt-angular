@@ -2,17 +2,19 @@
                 <div class="page-title">
                     <h3>Proposal</h3>
                 </div>
+                <button ui-sref="base.logout()">Logout</button>
                 <div id="userList"  ng-init="userList()">
                 
                     <div class="row">
                     <div class="col-md-12">
                         <div class="grid simple">
+                        <button ui-sref="base.proposalform()">Add Proposal</button>
                         <div class="grid-title no-border">
                             <h4 class="tip" data-toggle="tooltip" title="PSJA Users"><span class="semi-bold"> </span>Proposal List</h4>
-                            <div class="tools">
-                                <a href="javascript:;" class="reload"></a>
-                            </div>
-                            <input type="text" ng-model="searchname">
+                            
+                            <input type="text" ng-model="searchname" ng-keyup ="search()">
+                            <select ng-model="pageno" ng-options="item for item in pages" ng-change="changePageNo()">
+                            </select>
                             </div>
 
                         <div class="grid-body no-border">
@@ -28,8 +30,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>{{ msg}}<tr>
                                     <tr ng-repeat="singleUser in getProposals">
-                                       
+                                        
                                         <td class="v-align-middle"><span class="muted">{{singleUser.Proposals.title}}</span></td>
                                         <td class="v-align-middle">
                                             <select ng-model="singleUser.User" ng-options="item.name for item in users track by item.id" ng-change="updateAssignee(singleUser.User,{{singleUser.Proposals.id}})">
@@ -45,9 +48,8 @@
                                                 </a>
                                                 <a data-trigger="focus" data-popover-content="#popover-content" data-placement="bottom" rel="popover" href="javascript:;" class="fa fa-times popover-close">
                                                     <div id="popover-content" class="hide">
-                                                        
-                                                        <button type="button" class="btn-yes remove btn btn-primary">YES</button>
-                                                        <button type="button" class="btn-no btn btn-default">NO</button>
+                                                      <button ng-click="deactiveProposal(singleUser.Proposals.id)" >Deactive</button>
+                                                      <button ui-sref="base.proposalform({id: singleUser.Proposals.id})">Edit</button>
                                                     </div>
                                                 </a>
                                             </div>

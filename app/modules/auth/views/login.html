@@ -27,6 +27,11 @@
                                     <i class=""></i>
                                     <input type="password" name="txtpassword" id="txtpassword" class="form-control" ng-model="user.password" ng-minlength="8" ng-maxlength="30" required>
                                 </div>
+                                <div ng-messages="loginform.txtpassword.$error" style="color:maroon" role="alert">
+                                  <div ng-message="required">Please enter Password</div>
+                                  <div ng-message="maxlength">please enter maximum lenth 30</div>
+                                  <div ng-message="minlength">please enter minimum lenth 8</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,7 +41,7 @@
                         </div>
                         <div class="col-md-12 text-center">
                           <a ui-sref="base.signup" class="btn btn-primary btn-cons" role="button">Sign up</a>
-                            <!--<input type="button" name="signup"  class="btn btn-primary btn-cons" value="Sign up">-->
+                           
                         </div>
                     </div>
                      <div class="form-label"> {{error}}</div>

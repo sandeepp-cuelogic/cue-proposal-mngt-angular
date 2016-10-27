@@ -33,11 +33,10 @@
             })
 
             .state('base.proposalform', {
-                url: '/proposalform',
+                url: '/proposalform/:id?',
                 views: {
                     'content': {
-                        templateUrl: 'app/modules/proposal/views/proposal_form.html',
-                        controller: 'proposalformController'
+                        templateUrl: 'app/modules/proposal/views/proposal_form.html'
                     }
                 }
             })
