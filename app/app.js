@@ -14,13 +14,10 @@
             'config',
             'auth',
             'base',
-            //'dashboard',
             'proposal',
-            //'user'
 
         ])
         .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
-        .constant('domain','http://172.21.31.243:8000')
         .service('APIInterceptor',['$q','$rootScope','localStorageServiceWrapper','$location',authService] )
         .run(function($rootScope) {
             $rootScope.message = '';

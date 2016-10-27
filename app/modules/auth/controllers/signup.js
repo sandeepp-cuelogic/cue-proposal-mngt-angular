@@ -10,8 +10,8 @@
         $scope.user = {};
         $scope.submit = function () {
           signupService.registerUser($scope.user).success(function(response){
-            $state.go('base.login');
             $rootScope.message = response.message;
+            $state.go('base.login');
           }).error(function(err) {
             $rootScope.message = err.message;
           });
