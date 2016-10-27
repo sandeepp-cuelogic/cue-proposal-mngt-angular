@@ -5,7 +5,7 @@
     angular
         .module('proposal')
         .controller('proposalController', ['$scope', '$state','proposals','proposalService', proposalController])
-        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams','proposalService', proposalViewController]);
+        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams', 'proposals', 'proposalService', proposalViewController]);
 
     function proposalController($scope, $state,proposals,proposalService) {
         $scope.userList = function() {
@@ -47,17 +47,15 @@
         }
     };
 
-    function proposalViewController($scope, $rootScope, $state, $stateParams, proposalService){
-        $scope.proposalId = $stateParams.Id;
-        $scope.proposalInfo = function(){
-          proposalService.getProposalDetails($scope.proposalId)
+    function proposalViewController($scope, $rootScope, $state, $stateParams, proposals, proposalService){
+      $scope.proposalId = $stateParams.Id;
+      proposals.getProposalInfo()
             .success(function (resp) {
-              $scope.proposalDetails =   resp.data.proposal;
+              $scope.proposalDetails = resp.data;
             })
             .error(function (data, status, header, config) {
               $state.go('base.proposal');
               $rootScope.message = 'Please Try Again';
             });
         }
-    };
 })();
