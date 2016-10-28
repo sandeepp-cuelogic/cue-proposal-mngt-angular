@@ -4,12 +4,12 @@
 
     angular
         .module('proposal')
-        .controller('proposalController', ['$scope', '$state','$rootScope','proposals','proposalService','plimit', proposalController]);
+        .controller('proposalController', ['$scope', '$state','$rootScope','proposals','proposalService', proposalController]);
         
 
-    function proposalController($scope, $state,$rootScope,proposals,proposalService,plimit) {
+    function proposalController($scope, $state,$rootScope,proposals,proposalService) {
 
-          function setPageNo(count){
+          function setPageNo(count, plimit){
               var page = [];
                   var tpage = count / plimit;
                   for(var i=0; i< tpage; i++){
@@ -28,7 +28,7 @@
                     if(data.data.count >=1) {
                     $scope.getProposals = data.data.proposals;
 
-                  setPageNo(data.data.count);
+                  setPageNo(data.data.count,data.data.proposals.length);
                   
                   proposals.getUserList()
                   .success(function (data, status, headers, config) {
@@ -85,7 +85,7 @@
             if(data.statusCode == 200) {
               if(data.data.count >=1){
                 $scope.getProposals = data.data.proposals;
-                setPageNo(data.data.count);
+                setPageNo(data.data.count,data.data.proposals.length);
               }
               else{
                 $scope.msg = 'No Proposal Data';

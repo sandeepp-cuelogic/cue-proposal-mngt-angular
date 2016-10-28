@@ -1,2 +1,1 @@
-angular.module('proposal', ['ngMessages','proposal.service'])
-.constant('plimit',1);
+angular.module('proposal', ['ngMessages','proposal.service']);

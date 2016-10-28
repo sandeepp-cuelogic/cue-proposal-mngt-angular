@@ -41,8 +41,9 @@
     function authService($q, $rootScope, localStorageServiceWrapper, $location) {
         var service = this;
         service.request = function(config) {
-            var access_token = localStorageServiceWrapper.get('token');
-            console.log(access_token);
+            var c_user = localStorageServiceWrapper.get('current_user');
+            var access_token = c_user.token;
+            //console.log(access_token);
             if (access_token) {
                 config.headers.Authorization = 'Bearer '+access_token;
             }
