@@ -1,12 +1,9 @@
-<div ng-repeat="specs in proposalDetails.specifications">
-    <table border="1" width="50%">
-      <tr>
-        <td>Specification Title</td>
-        <td>{{specs.title}}</td>
-      </tr>
-      <tr>
-        <td>Info</td>
-        <td>{{specs.info}}</td>
-      </tr>
-    </table>
-</div>
+<div ui-view="spec_form"></div>
+<ul>
+  <li ng-repeat="specs in specifications">
+    <h3 ng-bind="specs.title"></h3>
+    <p ng-bind="specs.info"></p>
+    <a ui-sref="base.proposalview.spec.spec_form({specId:specs.id})">Update</a>
+  </li>
+  <a ui-sref="base.proposalview.spec.spec_form">Add Specification</a>
+</ul>

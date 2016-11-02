@@ -78,6 +78,18 @@
                         controller: 'proposalViewController'
                     }
                 }
+            })
+            .state('base.proposalview.spec.spec_form', {
+                url: '/spec_form/:specId',
+                params: {
+                    specId: null
+                },
+                views: {
+                    'spec_form': {
+                        templateUrl: 'app/modules/proposal/views/spec_form.html',
+                        controller: 'proposalViewController'
+                    }
+                }
             });
     }
 

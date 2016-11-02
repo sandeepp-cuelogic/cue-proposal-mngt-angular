@@ -4,8 +4,8 @@
 
     angular
         .module('proposal')
-        .controller('proposalController', ['$scope', '$state','$rootScope','proposals','proposalService', proposalController]);
-        
+        .controller('proposalController', ['$scope', '$state','$rootScope','proposals','proposalService', proposalController])
+        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams', 'proposals', 'proposalService', proposalViewController]);
 
     function proposalController($scope, $state,$rootScope,proposals,proposalService) {
 
@@ -124,14 +124,15 @@
       proposals.getProposalInfo()
             .success(function (resp) {
               $scope.proposalDetails = resp.data;
+              $scope.specifications = $scope.proposalDetails.specifications ;
             })
             .error(function (data, status, header, config) {
               $state.go('base.proposal');
               $rootScope.message = 'Please Try Again';
             });
         };
-      })
-})
+
+
 
 
 
