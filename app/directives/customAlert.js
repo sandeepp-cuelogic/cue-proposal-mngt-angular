@@ -9,7 +9,7 @@
         return {
           template : '<span>{{message}}</span>',
           link: function() {
-            $interval(function () { $rootScope.message = ''; }, 5000);
+            $interval(function () { $rootScope.message = ''; }, 10000);
           }
         }
     }

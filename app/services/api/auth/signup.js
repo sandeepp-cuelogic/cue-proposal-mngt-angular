@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('signupService.service', [])
-    .service('signupService', ['$http', signupServiceWrapper]);
+    .service('signupService', ['$http', 'configProvider', signupServiceWrapper]);
 
-function signupServiceWrapper($http) {
+function signupServiceWrapper($http, configProvider) {
 
   var service = {};
+  service.registerUser = registerUser;
+  return service;
+  
   function registerUser(data) {
-    return $http.post('http://172.21.31.243:8000/registration', data);
+    return $http.post(configProvider.appUrl+'/registration', data);
   }
 
-  service.registerUser = registerUser;
-
-  return service;
 
 };

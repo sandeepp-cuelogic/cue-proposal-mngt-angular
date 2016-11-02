@@ -119,7 +119,19 @@
       }
     };
 
-    
+    function proposalViewController($scope, $rootScope, $state, $stateParams, proposals, proposalService){
+      $scope.proposalId = $stateParams.Id;
+      proposals.getProposalInfo()
+            .success(function (resp) {
+              $scope.proposalDetails = resp.data;
+            })
+            .error(function (data, status, header, config) {
+              $state.go('base.proposal');
+              $rootScope.message = 'Please Try Again';
+            });
+        };
+      })
+})
 
 
 

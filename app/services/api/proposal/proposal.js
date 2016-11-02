@@ -6,6 +6,7 @@ angular.module('proposal.service', [])
     	var service = {};
 
         service.updateAssignedUser = updateAssignedUser;
+
         service.fetchProposals = fetchProposals;
         service.deActiveProposal = deActiveProposal;
         service.getUser = getUser;
@@ -13,9 +14,11 @@ angular.module('proposal.service', [])
         service.addProposal = addProposal;
         service.getProposalDetails = getProposalDetails;
         service.updateProposal = updateProposal;
+        service.getProposalDetails = getProposalDetails;
+
 
 	    return service;
-    	
+
         function updateAssignedUser(user_id,proposal_id){
             data = {proposal_id: proposal_id, assigned_to: user_id};
             return $http.post(configProvider.appUrl+'/proposal_assign', data);
@@ -52,5 +55,12 @@ angular.module('proposal.service', [])
 
         function updateProposal(data){
             return $http.put(configProvider.appUrl + '/proposal', data);
+        }
+        /**
+        * author : Gaurav Chauriya
+        * for proposal view
+        */
+        function getProposalDetails(proposalId){
+          return $http.get(configProvider.appUrl + '/proposal/' + proposalId);
         }
 	}
