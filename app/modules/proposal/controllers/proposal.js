@@ -121,7 +121,8 @@
 
     function proposalViewController($scope, $rootScope, $state, $stateParams, proposals, proposalService){
       $scope.proposalId = $stateParams.Id;
-      proposals.getProposalInfo()
+    
+     proposals.getProposalInfo()
             .success(function (resp) {
               $scope.proposalDetails = resp.data;
               $scope.specifications = $scope.proposalDetails.specifications ;

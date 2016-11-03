@@ -10,8 +10,7 @@ function proposalform($state,$rootScope,$stateParams,proposalService) {
             if($stateParams.id){
               proposalService.getProposalDetails($stateParams.id)
                 .success(function (data, status, headers, config) {
-                //console.log(data.data);
-                   $scope.pName = data.data.proposal.Proposal.title;
+                 $scope.pName = data.data.proposal.Proposal.title;
                    $scope.selectedclient = data.data.proposal.Client;
                    $scope.selectedassignee = data.data.proposal.User;
                    $scope.minfo = data.data.proposal.Proposal.more_info;
