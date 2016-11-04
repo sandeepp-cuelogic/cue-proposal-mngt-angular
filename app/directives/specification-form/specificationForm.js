@@ -41,7 +41,7 @@
 				        url :url,
 				        data : scope.specification
 				    }).then(function(response) {
-               
+              
               $location.url('/proposalview/'+$stateParams.Id+'/spec');
               
               $rootScope.spmsg = response.data.message;
