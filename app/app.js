@@ -12,9 +12,7 @@
             'localStorage.service',
             'config',
             'auth',
-            'base',
-            'dashboard',
-            'user'
+            'base'
 
         ])
         .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase]);
