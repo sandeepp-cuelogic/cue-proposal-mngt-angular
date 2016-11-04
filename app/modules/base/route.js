@@ -18,10 +18,13 @@
                     },
                     'header@base': {
                         templateUrl: 'app/modules/base/views/header.html',
+                        controller: 'baseController'
                     },
-                    'sidebar@base': {
+
+                  /*  'sidebar@base': {
+
                         templateUrl: 'app/modules/base/views/sidebar.html',
-                    },
+                    },*/
                     'footer@base': {
                         templateUrl: 'app/modules/base/views/footer.html',
                     }

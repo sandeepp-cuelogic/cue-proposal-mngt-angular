@@ -1,0 +1,23 @@
+
+<form name="frmSpecification" ng-submit="submitSpec()">
+	<label for="title"> Title </label><input type="text" id="title" ng-model="specification.title" ng-maxlength="150" name="title"  required>
+	<div ng-messages="frmSpecification.title.$error" style="color:maroon" role="alert">
+                  <div ng-message="required">Please enter Specification Title.</div>
+                  <div ng-message="maxlength">please enter maximum lenth 150</div>
+                   </div>
+	<br><br>
+	<label for="info" >Info </label>
+	<textarea id="info" ng-model="specification.info" ng-maxlength="250" name="info"  required></textarea>
+	<div ng-messages="frmSpecification.info.$error" style="color:maroon" role="alert">
+                  <div ng-message="required">Please enter Specification Info.</div>
+                  <div ng-message="maxlength">please enter maximum lenth 150</div>
+                   </div>
+	<br><br>
+	<label for="cost">Cost</label>
+	<input type="number"  id="cost" ng-model="specification.cost" name="cost" step="0.01" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+	<div ng-messages="frmSpecification.cost.$error" style="color:maroon" role="alert">
+                  <div ng-message="required">Please enter Specification Cost.</div>
+                  <div ng-message="pattern">Please enter cost in 2 decimal places.</div>
+                   </div>
+	<button type="submit" name="submit">Submit</button>
+</form>

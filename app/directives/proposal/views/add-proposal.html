@@ -1,0 +1,41 @@
+
+<div class="grid simple">
+  <div class="grid-title no-border">
+    <h4>{{title}} <span class="semi-bold">Proposal</span></h4>
+  </div>
+  <div class="grid-body no-border">
+    <form ng-submit="addProposal()" id="proposalfrm" name="proposalfrm">
+     
+                <label class="form-label" for="pName">Proposal Name</label>
+                <input tabindex="1" class="form-control input-sm" type="text"
+                  name="pName" ng-model="pName" ng-maxlength="255"  ng-minlength="5" required>
+                <div ng-messages="proposalfrm.pName.$error" style="color:maroon" role="alert">
+                  <div ng-message="required">Please enter Proposal Name</div>
+                  <div ng-message="maxlength">please enter maximum lenth 255</div>
+                  <div ng-message="minlength">please enter minimum lenth 5</div>
+                </div>  
+                <br>
+                <label class="form-label" for="client">Client</label>
+                <select ng-model="selectedclient" ng-options="item.name for item in clients track by item.id" name="client" required>
+                  <option value="">Select a client</option>
+                </select>
+                <div ng-messages="proposalfrm.client.$error" style="color:maroon" role="alert">
+                  <div ng-message="required">Please select client</div>
+                  
+                </div> 
+              <br>
+                <label class="form-label" for="assign">Assign To</label>
+                <select ng-model="selectedassignee" ng-options="item.name for item in assignee track by item.id" >
+                  <option value="">Select a assignee</option>
+                </select>
+                <br>
+                <label class="form-label" for="minfo">More Info</label>
+               <textarea ng-model="minfo"></textarea>                               
+               <br> 
+     
+          <input type="submit" id="submit" class="btn-option btn btn-primary small" value="{{bvalue}}"/>
+         <a href="javascript:void(0);" class="btn-option btn btn-default small">CANCEL</a>
+       
+    </form>
+  </div>
+</div>

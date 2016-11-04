@@ -16,7 +16,7 @@ var gulp = require('gulp-param')(require('gulp'), process.argv),
     path = require('path'),
     filePath = {
         appCss: [
-            'bower_components/bootstrap/dist/css/bootstrap.css',
+            /*'bower_components/bootstrap/dist/css/bootstrap.css',*/
             'assets/css/*.css'
         ],
         appJs: [
@@ -26,8 +26,10 @@ var gulp = require('gulp-param')(require('gulp'), process.argv),
             'bower_components/angular-lazy-img/release/angular-lazy-img.js',
             'bower_components/angular-bootstrap/ui-bootstrap.js',
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
+            'bower_components/angular-messages/angular-messages.js',
             'app/**/**/*.js',
             'app/modules/**/**/*.js',
+            'app/directive/*.js',
             'app/app.js'
         ],
         appImg: 'assets/images/*',

@@ -1,0 +1,70 @@
+<div class="content">
+                <div class="page-title">
+                    <h3>Proposal</h3>
+                </div>
+                <button ui-sref="base.logout()">Logout</button>
+                <div id="userList"  ng-init="userList()">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="grid simple">
+                        <button ui-sref="base.proposalform()">Add Proposal</button>
+                        <div class="grid-title no-border">
+                            <h4 class="tip" data-toggle="tooltip" title="PSJA Users"><span class="semi-bold"> </span>Proposal List</h4>
+                            
+                            <input type="text" ng-model="searchname" ng-keyup ="search()">
+                            <select ng-model="pageno" ng-options="item for item in pages" ng-change="changePageNo()">
+                            </select>
+                            </div>
+
+                        <div class="grid-body no-border">
+                            <div class="row">
+                            <table class="table no-more-tables">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:22%">Proposal Name</th>
+                                        <th style="width:16%">Assigned To</th>
+                                        <th style="width:28%">Client Name</th>
+                                        <th style="width:5%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>{{ msg}}<tr>
+                                    <tr ng-repeat="singleUser in getProposals">
+
+                                        <td class="v-align-middle"><span class="muted"><a ui-sref="base.proposalview.info({Id : singleUser.Proposals.id})"> {{singleUser.Proposals.title}} </a></span></td>
+
+                                        <td class="v-align-middle">
+                                            <select ng-model="singleUser.User" ng-options="item.name for item in users track by item.id" ng-change="updateAssignee(singleUser.User,{{singleUser.Proposals.id}})">
+                                          <option value="">Select a type</option>
+                                        </select>
+                                        </td>
+                                        <td><span class="muted">{{singleUser.Client.name}}</span>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <div class="tools">
+                                                <a href="edit_users.html">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a data-trigger="focus" data-popover-content="#popover-content" data-placement="bottom" rel="popover" href="javascript:;" class="fa fa-times popover-close">
+                                                    <div id="popover-content" class="hide">
+
+                                                      <button ng-click="deactiveProposal(singleUser.Proposals.id)" >Deactive</button>
+                                                      <button ui-sref="base.proposalform({id: singleUser.Proposals.id})">Edit</button>
+
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>

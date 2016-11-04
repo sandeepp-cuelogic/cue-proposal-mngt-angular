@@ -1,0 +1,10 @@
+<div >
+  <div><a ui-sref="base.proposal">Back</a></div>
+  <table>
+    <tr>
+      <td><a ui-sref=".info({ Id: proposalId })">INFO</a></td>
+      <td><a ui-sref=".spec({Id: proposalId })">SPECIFICATION</a></td>
+    </tr>
+  </table>
+</div>
+<div ui-view="proposalSec" class="content"></div>
