@@ -48,12 +48,8 @@
             return config;
         };
         service.responseError = function(error) {
-            if (error.status === 401) {
-                $rootScope.$broadcast('unauthorized') ;
-                $location.url('/login');
-            }
-            return $q.reject(error);
-            //return error ;
+            $rootScope.$broadcast('requestErrorHandler', error.data.message) ;
+            return $q.reject() ;
         };
     }
 
