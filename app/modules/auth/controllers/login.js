@@ -12,6 +12,7 @@
        
         
         if($state.current.name == "base.logout"){
+
            localStorageServiceWrapper.set('current_user',{});
         }
        $scope.LoggedIn = function(){

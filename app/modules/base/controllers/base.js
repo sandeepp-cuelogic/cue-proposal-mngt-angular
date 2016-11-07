@@ -8,6 +8,10 @@
         var c_user = localStorageServiceWrapper.get('current_user') ;
         if(c_user.uname) {
             $scope.user_name = c_user.uname ;
+            $scope.show_text = true;
+        }
+        else{
+        	$scope.show_text = false;
         }
     }
 })();
