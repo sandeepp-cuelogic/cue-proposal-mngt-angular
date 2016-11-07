@@ -49,7 +49,7 @@
         };
         service.responseError = function(error) {
             $rootScope.$broadcast('requestErrorHandler', error.data.message) ;
-            return $q.reject() ;
+            return $q.reject(error) ;
         };
     }
 
