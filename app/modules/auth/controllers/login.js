@@ -9,7 +9,7 @@
     function loginController($scope, $state, loginService,localStorageServiceWrapper ) {
         $scope.user = {} ;
         $scope.error = '';
-        $scope.message = '';
+       
         
         if($state.current.name == "base.logout"){
            localStorageServiceWrapper.set('current_user',{});
@@ -42,7 +42,7 @@
 
          }
          else{
-         	$scope.message = "Please enter username and password.";
+         	$scope.$parent.message = "Please enter username and password.";
          }
        }
     }

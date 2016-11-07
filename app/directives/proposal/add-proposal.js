@@ -41,15 +41,15 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
                  if(data.statusCode == 200){
                 
                 $state.go('base.proposal');
-                $scope.msg = data.message;
+                $scope.$parent.message = data.message;
                       }
                       else{
-                        $scope.message = data.message;
+                        $scope.$parent.message = data.message;
                       }
                     })
                     .error(function (data, status, header, config) {
               
-                     $scope.message = data.message;
+                     $scope.$parent.message = data.message;
                 });
             }
             else{
@@ -69,17 +69,17 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
             proposalService.addProposal(data)
             .success(function (data, status, headers, config) {
               if(data.statusCode == 200){
-                $scope.msg = data.message;
-                $state.go('base.proposal');
                 
+                $state.go('base.proposal');
+                $scope.$parent.message = data.message;
                       }
                       else{
-                        $scope.message = data.message;
+                        $scope.$parent.message = data.message;
                       }
                     })
                     .error(function (data, status, header, config) {
               
-                     $scope.message = data.message;
+                     $scope.$parent.message = data.message;
                 });
                }
           };

@@ -1,7 +1,7 @@
 'use strict';
 (function() {
-    angular.module('proposal').directive('specificationForm',['$location','$http','configProvider','$stateParams','localStorageServiceWrapper',specificationForm]) ;
-    function specificationForm($location,$http,configProvider,$stateParams,localStorageServiceWrapper ) {
+    angular.module('proposal').directive('specificationForm',['$location','$state','$http','configProvider','$stateParams','localStorageServiceWrapper',specificationForm]) ;
+    function specificationForm($location,$state,$http,configProvider,$stateParams,localStorageServiceWrapper ) {
         return {
           restrict: 'E' ,
           templateUrl : 'app/directives/specification-form/views/specification-form.html',
@@ -44,14 +44,14 @@
 				        data : scope.specification
 				    }).then(function(response) {
               
-              $location.url('/proposalview/'+$stateParams.Id+'/spec');
-              
-              scope.specification_message = response.data.message;
+              $state.go('base.proposalview.spec', {},{reload: true});
+            
+              scope.$parent.message = response.data.message;
              
               
 				    }, function(response) {
 				        //console.log(response, "Error")
-                scope.specification_message = response.data.message;
+                scope.$parent.message = response.data.message;
 				    });
 
 
