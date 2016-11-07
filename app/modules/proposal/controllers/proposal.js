@@ -9,7 +9,9 @@
 
     function proposalController($scope, $state,proposals,proposalService) {
 
-          function setPageNo(count, plimit) {
+
+
+          function setPageNo(count, plimit){
               var page = [];
               var tpage = count / plimit;
               for(var i=0; i< tpage; i++){
@@ -33,18 +35,19 @@
                   proposals.getUserList()
                   .success(function (data, status, headers, config) {
                       $scope.users =  data; 
-                      //$scope.message = data.message;
+
+                      $scope.$parent.message = data.message;
                     })
                     .error(function (data, status, header, config) {
                      
                     });
                   }
                   else{
-                    $scope.message = 'No Proposal Data';
+                    $scope.$parent.message = 'No Proposal Data';
                   }
                  }
                  else{
-                  $scope.message = data.message;
+                   $scope.$parent.message = data.message;
                  }
                 
             })
@@ -57,10 +60,10 @@
             proposalService.updateAssignedUser(item.id,proposal_id)
             .success(function (data, status, headers, config) {
                       if(data.statusCode == 200){
-                        $scope.message = data.message;
+                        $scope.$parent.message  = data.message;
                           }
                           else{
-                            $scope.message = data.message;
+                            $scope.$parent.message = data.message;
                           }
 
                     })
@@ -73,7 +76,7 @@
          proposalService.fetchProposals($scope.pageno,$scope.searchValue)
          .success(function (data, status, headers, config) {
             $scope.getProposals = data.data.proposals;
-            $scope.message = data.message;
+            $scope.$parent.message = data.message;
          })
          .error(function (data, status, header, config) {
               
@@ -87,14 +90,14 @@
               if(data.data.count >=1){
                 $scope.getProposals = data.data.proposals;
                 setPageNo(data.data.count,data.data.proposals.length);
-                $scope.message = data.message;
+                $scope.$parent.message = data.message;
               }
               else{
-                $scope.message = 'No Proposal Data';
+                $scope.$parent.message = 'No Proposal Data';
               }
             }
             else{
-                $scope.message = data.message;
+                $scope.$parent.message = data.message;
             }
             
          })
@@ -107,11 +110,12 @@
         proposalService.deActiveProposal(proposal_id)
         .success(function (data, status, headers, config) {
             if(data.statusCode == 200){
+                         $scope.$parent.message = data.message;
                          $state.reload();
-                         $scope.message = data.message;
+                         
                           }
                           else{
-                            $scope.message = data.message;
+                            $scope.$parent.message = data.message;
                           }
            
          })
@@ -128,11 +132,11 @@
             .success(function (resp) {
               $scope.proposalDetails = resp.data;
               $scope.specifications = $scope.proposalDetails.specifications ;
-              $scope.message = resp.data.message;
+              $scope.$parent.message = resp.data.message;
             })
             .error(function (data, status, header, config) {
               $state.go('base.proposal');
-              $scope.message = 'Please Try Again';
+              $scope.$parent.message = 'Please Try Again';
             });
         };
 
