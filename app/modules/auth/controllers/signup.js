@@ -4,16 +4,16 @@
 
     angular
         .module('auth')
-        .controller('signupController', ['$scope', '$state', 'signupService', '$rootScope', signupController]);
+        .controller('signupController', ['$scope', '$state', 'signupService', signupController]);
 
-    function signupController($scope,  $state, signupService, $rootScope) {
+    function signupController($scope,  $state, signupService) {
         $scope.user = {};
         $scope.submit = function () {
           signupService.registerUser($scope.user).success(function(response){
-            $rootScope.message = response.message;
+            $scope.$parent.message = response.message;
             $state.go('base.login');
           }).error(function(err) {
-            $rootScope.message = err.message;
+            $scope.$parent.message = err.message;
           });
         }
     }
