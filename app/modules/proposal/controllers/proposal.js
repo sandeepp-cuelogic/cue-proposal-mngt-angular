@@ -26,7 +26,7 @@
             proposals.getProposalList()
             .success(function (data, status, headers, config) {
                //  console.log(data.data.proposals);
-                 if(data.statusCode == 200) {
+                 
                     if(data.data.count >=1) {
                     $scope.getProposals = data.data.proposals;
 
@@ -37,22 +37,13 @@
                       $scope.users =  data; 
 
                       $scope.$parent.message = data.message;
-                    })
-                    .error(function (data, status, header, config) {
-                     
                     });
                   }
                   else{
                     $scope.$parent.message = 'No Proposal Data';
                   }
-                 }
-                 else{
-                   $scope.$parent.message = data.message;
-                 }
+                 
                 
-            })
-            .error(function (data, status, header, config) {
-              
             });
             
         };
@@ -66,9 +57,6 @@
                             $scope.$parent.message = data.message;
                           }
 
-                    })
-                    .error(function (data, status, header, config) {
-                     
                     });
         };
 
@@ -77,16 +65,13 @@
          .success(function (data, status, headers, config) {
             $scope.getProposals = data.data.proposals;
             $scope.$parent.message = data.message;
-         })
-         .error(function (data, status, header, config) {
-              
-        });
+         });
        };
 
        $scope.search = function(){
         proposalService.fetchProposals(1,$scope.searchValue)
          .success(function (data, status, headers, config) {
-            if(data.statusCode == 200) {
+           
               if(data.data.count >=1){
                 $scope.getProposals = data.data.proposals;
                 setPageNo(data.data.count,data.data.proposals.length);
@@ -95,33 +80,19 @@
               else{
                 $scope.$parent.message = 'No Proposal Data';
               }
-            }
-            else{
-                $scope.$parent.message = data.message;
-            }
             
-         })
-         .error(function (data, status, header, config) {
-              
-        });
+            
+         });
        }
 
        $scope.deactiveProposal = function(proposal_id){
         proposalService.deActiveProposal(proposal_id)
         .success(function (data, status, headers, config) {
-            if(data.statusCode == 200){
+            
                          $scope.$parent.message = data.message;
                          $state.reload();
                          
-                          }
-                          else{
-                            $scope.$parent.message = data.message;
-                          }
-           
-         })
-         .error(function (data, status, header, config) {
-              
-        });
+         });
       }
     };
 

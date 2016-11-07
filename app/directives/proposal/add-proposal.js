@@ -16,10 +16,7 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
                    $scope.moreInfo = data.data.proposal.Proposal.more_info;
                    $scope.buttonValue = 'Update';
                    $scope.title = 'Update';
-                 })
-                 .error(function (data, status, header, config) {
-                      
-                });
+                 });
           }
           $scope.submitProposal = function(){
             if($stateParams.id){
@@ -38,19 +35,9 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
 
             proposalService.updateProposal(data)
             .success(function (data, status, headers, config) {
-                 if(data.statusCode == 200){
-                
-                $state.go('base.proposal');
+                 $state.go('base.proposal');
                 $scope.$parent.message = data.message;
-                      }
-                      else{
-                        $scope.$parent.message = data.message;
-                      }
-                    })
-                    .error(function (data, status, header, config) {
-              
-                     $scope.$parent.message = data.message;
-                });
+                    });
             }
             else{
             var c_user = localStorageServiceWrapper.get('current_user');
@@ -68,38 +55,22 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
             }
             proposalService.addProposal(data)
             .success(function (data, status, headers, config) {
-              if(data.statusCode == 200){
-                
-                $state.go('base.proposal');
+              $state.go('base.proposal');
                 $scope.$parent.message = data.message;
-                      }
-                      else{
-                        $scope.$parent.message = data.message;
-                      }
-                    })
-                    .error(function (data, status, header, config) {
-              
-                     $scope.$parent.message = data.message;
-                });
+                    });
                }
           };
            proposalService.getUser()
             .success(function (data, status, headers, config) {
                       $scope.assignee = data;
                       
-                    })
-                    .error(function (data, status, header, config) {
-                     
-             });
+                    });
            proposalService.getClient()
            .success(function (data, status, headers, config) {
            			//console.log(data);
                       $scope.clients = data;
                       
-                    })
-                    .error(function (data, status, header, config) {
-                     
-             });      
+                    });      
         },
         templateUrl: "app/directives/proposal/views/add-proposal.html"
         
