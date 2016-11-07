@@ -4,11 +4,12 @@
 
     angular
         .module('auth')
-        .controller('loginController', ['$scope', '$state','$rootScope','loginService','localStorageServiceWrapper', loginController]);
+        .controller('loginController', ['$scope', '$state','loginService','localStorageServiceWrapper', loginController]);
 
-    function loginController($scope, $state, $rootScope, loginService,localStorageServiceWrapper ) {
+    function loginController($scope, $state, loginService,localStorageServiceWrapper ) {
         $scope.user = {} ;
         $scope.error = '';
+        $scope.message = '';
         
         if($state.current.name == "base.logout"){
            localStorageServiceWrapper.set('current_user',{});
@@ -17,17 +18,18 @@
          if($scope.user.email && $scope.user.password){
             loginService.validate($scope.user.email,$scope.user.password)
             .success(function (data, status, headers, config) {
-                 console.log(data) ;
-                 if(data.statusCode == 400) {
+                if(data.statusCode == 400) {
                    $scope.error = data.message;
                  }
                  else{
+                    //console.log(data.data) ;
                     var current_user_info = {};
                     current_user_info.token = data.data.token;
                     current_user_info.uname = data.data.user.name;
+                    current_user_info.user_id = data.data.user.id;
                     //console.log(current_user_info) ;
                     localStorageServiceWrapper.set('current_user',current_user_info);
-                    $rootScope.message = data.message;
+                    
                     $state.go('base.proposal');
                  }
 
@@ -40,7 +42,7 @@
 
          }
          else{
-         	$rootScope.message = "Please enter username and password.";
+         	$scope.message = "Please enter username and password.";
          }
        }
     }

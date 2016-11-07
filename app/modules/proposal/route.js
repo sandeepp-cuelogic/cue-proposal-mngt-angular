@@ -32,8 +32,16 @@
                 }
             })
 
-            .state('base.proposalform', {
-                url: '/proposalform/:id?',
+            .state('base.addproposal', {
+                url: '/addproposal',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/proposal/views/proposal_form.html'
+                    }
+                }
+            })
+            .state('base.editproposal', {
+                url: '/editproposal/:id',
                 views: {
                     'content': {
                         templateUrl: 'app/modules/proposal/views/proposal_form.html'
@@ -79,8 +87,20 @@
                     }
                 }
             })
-            .state('base.proposalview.spec.spec_form', {
-                url: '/spec_form/:specId',
+            .state('base.proposalview.spec.spec_add', {
+                url: '/specification',
+                params: {
+                    specId: null
+                },
+                views: {
+                    'spec_form': {
+                        templateUrl: 'app/modules/proposal/views/spec_form.html',
+                        controller: 'proposalViewController'
+                    }
+                }
+            })
+            .state('base.proposalview.spec.spec_edit', {
+                url: '/specification/:specId',
                 params: {
                     specId: null
                 },

@@ -1,11 +1,11 @@
-<span >{{spmsg}}</span>
+<span >{{specification_message}}</span>
 <div ui-view="spec_form"></div>
 <ul>
   <li ng-repeat="specs in specifications">
     <h3 ng-bind="specs.title"></h3>
     <p ng-bind="specs.info"></p>
     <p >{{ specs.cost | number:2 }}</p>
-    <a ui-sref="base.proposalview.spec.spec_form({specId:specs.id})">Update</a>
+    <a ui-sref="base.proposalview.spec.spec_edit({specId:specs.id})">Update</a>
   </li>
-  <a ui-sref="base.proposalview.spec.spec_form">Add Specification</a>
+  <a ui-sref="base.proposalview.spec.spec_add">Add Specification</a>
 </ul>

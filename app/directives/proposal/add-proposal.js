@@ -1,83 +1,85 @@
 angular.module('proposal')
-    .directive("proposalform", ['$state','$rootScope','$stateParams','proposalService',proposalform]);
+    .directive("proposalform", ['$state','$stateParams','proposalService','localStorageServiceWrapper' ,proposalform]);
 
-function proposalform($state,$rootScope,$stateParams,proposalService) {
+function proposalform($state,$stateParams,proposalService,localStorageServiceWrapper ) {
     return {
         restrict: "E",
         link: function ($scope, element, attrs) {
-            $scope.bvalue = 'Create';
+            $scope.buttonValue = 'Create';
             $scope.title = 'Create';
             if($stateParams.id){
               proposalService.getProposalDetails($stateParams.id)
                 .success(function (data, status, headers, config) {
-                 $scope.pName = data.data.proposal.Proposal.title;
-                   $scope.selectedclient = data.data.proposal.Client;
-                   $scope.selectedassignee = data.data.proposal.User;
-                   $scope.minfo = data.data.proposal.Proposal.more_info;
-                   $scope.bvalue = 'Update';
+                 $scope.proposalName = data.data.proposal.Proposal.title;
+                   $scope.clientName = data.data.proposal.Client;
+                   $scope.assigneeName = data.data.proposal.User;
+                   $scope.moreInfo = data.data.proposal.Proposal.more_info;
+                   $scope.buttonValue = 'Update';
                    $scope.title = 'Update';
                  })
                  .error(function (data, status, header, config) {
                       
                 });
           }
-          $scope.addProposal = function(){
+          $scope.submitProposal = function(){
             if($stateParams.id){
-              var data = {id: $stateParams.id, title: $scope.pName, client_id: $scope.selectedclient.id};
-              if($scope.selectedassignee != null)
+              var data = {id: $stateParams.id, title: $scope.proposalName, client_id: $scope.clientName.id};
+              if($scope.assigneeName!= null)
               {
-                data.assigned_to = $scope.selectedassignee.id;
+                data.assigned_to = $scope.assigneeName.id;
+              }
+              
+              if($scope.moreInfo != null)
+              {
+                data.more_info = $scope.moreInfo;
                 
               }
-              if($scope.minfo != null)
-              {
-                data.more_info = $scope.minfo;
-                
-              }
-              proposalService.updateProposal(data)
-            .success(function (data, status, headers, config) {
-              console.log(data);
-              if(data.statusCode == 200){
+              
 
-                $rootScope.message = data.message;
-                $state.go('base.proposal');
+            proposalService.updateProposal(data)
+            .success(function (data, status, headers, config) {
+                 if(data.statusCode == 200){
                 
+                $state.go('base.proposal');
+                $scope.msg = data.message;
                       }
                       else{
-                        $rootScope.message = data.message;
+                        $scope.message = data.message;
                       }
                     })
                     .error(function (data, status, header, config) {
               
-                     $rootScope.message = data.message;
+                     $scope.message = data.message;
                 });
             }
             else{
-            var data = {title: $scope.pName, client_id: $scope.selectedclient.id, created_by: 1};
-            if($scope.selectedassignee != null)
+            var c_user = localStorageServiceWrapper.get('current_user');
+            var user_id = c_user.user_id;  
+            var data = {title: $scope.proposalName, client_id: $scope.clientName.id, created_by: user_id};
+            if($scope.assigneeName != null)
             {
-              data.assigned_to = $scope.selectedassignee.id;
+              data.assigned_to = $scope.assigneeName.id;
               
             }
-            if($scope.minfo != null)
+            if($scope.moreInfo != null)
             {
-              data.more_info = $scope.minfo;
+              data.more_info = $scope.moreInfo;
               
             }
             proposalService.addProposal(data)
             .success(function (data, status, headers, config) {
               if(data.statusCode == 200){
-                $rootScope.message = data.message;
+                $scope.msg = data.message;
                 $state.go('base.proposal');
                 
                       }
                       else{
-                        $rootScope.message = data.message;
+                        $scope.message = data.message;
                       }
                     })
                     .error(function (data, status, header, config) {
               
-                     $rootScope.message = data.message;
+                     $scope.message = data.message;
                 });
                }
           };

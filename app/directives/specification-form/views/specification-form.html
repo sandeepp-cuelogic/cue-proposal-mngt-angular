@@ -1,5 +1,5 @@
 
-<form name="frmSpecification" ng-submit="submitSpec()">
+<form name="frmSpecification" ng-submit="submitSpecification()">
 	<label for="title"> Title </label><input type="text" id="title" ng-model="specification.title" ng-maxlength="150" name="title"  required>
 	<div ng-messages="frmSpecification.title.$error" style="color:maroon" role="alert">
                   <div ng-message="required">Please enter Specification Title.</div>

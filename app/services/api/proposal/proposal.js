@@ -14,8 +14,7 @@ angular.module('proposal.service', [])
         service.addProposal = addProposal;
         service.getProposalDetails = getProposalDetails;
         service.updateProposal = updateProposal;
-        service.getProposalDetails = getProposalDetails;
-
+        
 
 	    return service;
 
@@ -56,11 +55,5 @@ angular.module('proposal.service', [])
         function updateProposal(data){
             return $http.put(configProvider.appUrl + '/proposal', data);
         }
-        /**
-        * author : Gaurav Chauriya
-        * for proposal view
-        */
-        function getProposalDetails(proposalId){
-          return $http.get(configProvider.appUrl + '/proposal/' + proposalId);
-        }
+        
 	}

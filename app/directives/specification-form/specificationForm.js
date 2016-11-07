@@ -1,7 +1,7 @@
 'use strict';
 (function() {
-    angular.module('proposal').directive('specificationForm',['$location','$rootScope','$http','configProvider','$stateParams',specificationForm]) ;
-    function specificationForm($location,$rootScope,$http,configProvider,$stateParams ) {
+    angular.module('proposal').directive('specificationForm',['$location','$http','configProvider','$stateParams','localStorageServiceWrapper',specificationForm]) ;
+    function specificationForm($location,$http,configProvider,$stateParams,localStorageServiceWrapper ) {
         return {
           restrict: 'E' ,
           templateUrl : 'app/directives/specification-form/views/specification-form.html',
@@ -20,7 +20,7 @@
                   }
                 }
               }
-          		scope.submitSpec = function() {
+          		scope.submitSpecification = function() {
           			scope.specification['proposal_id'] = $stateParams.Id ;
                 var url = configProvider.appUrl + '/specification' ;
           			var method ;
@@ -32,7 +32,9 @@
           			}
                 else{
                   method  = 'POST' ;
-                  scope.specification['created_by'] = '1' ;
+                  var c_user = localStorageServiceWrapper.get('current_user');
+                  var user_id = c_user.user_id;
+                  scope.specification['created_by'] = user_id ;
                   
                 }
                 
@@ -44,12 +46,12 @@
               
               $location.url('/proposalview/'+$stateParams.Id+'/spec');
               
-              $rootScope.spmsg = response.data.message;
+              scope.specification_message = response.data.message;
              
               
 				    }, function(response) {
 				        //console.log(response, "Error")
-                $rootScope.spmsg = response.data.message;
+                scope.specification_message = response.data.message;
 				    });
 
 

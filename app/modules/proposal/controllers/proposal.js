@@ -4,10 +4,10 @@
 
     angular
         .module('proposal')
-        .controller('proposalController', ['$scope', '$state','$rootScope','proposals','proposalService', proposalController])
-        .controller('proposalViewController', ['$scope', '$rootScope', '$state', '$stateParams', 'proposals', 'proposalService', proposalViewController]);
+        .controller('proposalController', ['$scope', '$state','proposals','proposalService', proposalController])
+        .controller('proposalViewController', ['$scope', '$state', '$stateParams', 'proposals', 'proposalService', proposalViewController]);
 
-    function proposalController($scope, $state,$rootScope,proposals,proposalService) {
+    function proposalController($scope, $state,proposals,proposalService) {
 
           function setPageNo(count, plimit){
               var page = [];
@@ -19,7 +19,7 @@
                   $scope.pageno = page[0];
           }
 
-        $scope.userList = function() {
+        $scope.proposalList = function() {
             //console.log(proposalService);
             proposals.getProposalList()
             .success(function (data, status, headers, config) {
@@ -33,18 +33,18 @@
                   proposals.getUserList()
                   .success(function (data, status, headers, config) {
                       $scope.users =  data; 
-                      $rootScope.message = data.message;
+                      $scope.message = data.message;
                     })
                     .error(function (data, status, header, config) {
                      
                     });
                   }
                   else{
-                    $scope.msg = 'No Proposal Data';
+                    $scope.message = 'No Proposal Data';
                   }
                  }
                  else{
-                   $rootScope.message = data.message;
+                   $scope.message = data.message;
                  }
                 
             })
@@ -57,10 +57,10 @@
             proposalService.updateAssignedUser(item.id,proposal_id)
             .success(function (data, status, headers, config) {
                       if(data.statusCode == 200){
-                        $rootScope.message = data.message;
+                        $scope.message = data.message;
                           }
                           else{
-                            $rootScope.message = data.message;
+                            $scope.message = data.message;
                           }
 
                     })
@@ -70,9 +70,10 @@
         };
 
        $scope.changePageNo = function(){
-         proposalService.fetchProposals($scope.pageno,$scope.searchname)
+         proposalService.fetchProposals($scope.pageno,$scope.searchValue)
          .success(function (data, status, headers, config) {
             $scope.getProposals = data.data.proposals;
+            $scope.message = data.message;
          })
          .error(function (data, status, header, config) {
               
@@ -80,19 +81,20 @@
        };
 
        $scope.search = function(){
-        proposalService.fetchProposals(1,$scope.searchname)
+        proposalService.fetchProposals(1,$scope.searchValue)
          .success(function (data, status, headers, config) {
             if(data.statusCode == 200) {
               if(data.data.count >=1){
                 $scope.getProposals = data.data.proposals;
                 setPageNo(data.data.count,data.data.proposals.length);
+                $scope.message = data.message;
               }
               else{
-                $scope.msg = 'No Proposal Data';
+                $scope.message = 'No Proposal Data';
               }
             }
             else{
-                $rootScope.message = data.message;
+                $scope.message = data.message;
             }
             
          })
@@ -105,11 +107,11 @@
         proposalService.deActiveProposal(proposal_id)
         .success(function (data, status, headers, config) {
             if(data.statusCode == 200){
-                        $rootScope.message = data.message;
                          $state.reload();
+                         $scope.message = data.message;
                           }
                           else{
-                            $rootScope.message = data.message;
+                            $scope.message = data.message;
                           }
            
          })
@@ -119,17 +121,18 @@
       }
     };
 
-    function proposalViewController($scope, $rootScope, $state, $stateParams, proposals, proposalService){
+    function proposalViewController($scope, $state, $stateParams, proposals, proposalService){
       $scope.proposalId = $stateParams.Id;
     
      proposals.getProposalInfo()
             .success(function (resp) {
               $scope.proposalDetails = resp.data;
               $scope.specifications = $scope.proposalDetails.specifications ;
+              $scope.message = resp.data.message;
             })
             .error(function (data, status, header, config) {
               $state.go('base.proposal');
-              $rootScope.message = 'Please Try Again';
+              $scope.message = 'Please Try Again';
             });
         };
 
