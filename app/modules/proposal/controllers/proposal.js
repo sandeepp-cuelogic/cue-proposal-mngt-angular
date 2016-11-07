@@ -9,14 +9,14 @@
 
     function proposalController($scope, $state,proposals,proposalService) {
 
-          function setPageNo(count, plimit){
+          function setPageNo(count, plimit) {
               var page = [];
-                  var tpage = count / plimit;
-                  for(var i=0; i< tpage; i++){
-                    page[i] = i+1;
-                  } 
-                  $scope.pages = page;
-                  $scope.pageno = page[0];
+              var tpage = count / plimit;
+              for(var i=0; i< tpage; i++){
+                page[i] = i+1;
+              } 
+              $scope.pages = page;
+              $scope.pageno = page[0];
           }
 
         $scope.proposalList = function() {
@@ -33,7 +33,7 @@
                   proposals.getUserList()
                   .success(function (data, status, headers, config) {
                       $scope.users =  data; 
-                      $scope.message = data.message;
+                      //$scope.message = data.message;
                     })
                     .error(function (data, status, header, config) {
                      
@@ -44,7 +44,7 @@
                   }
                  }
                  else{
-                   $scope.message = data.message;
+                  $scope.message = data.message;
                  }
                 
             })

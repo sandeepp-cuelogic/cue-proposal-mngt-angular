@@ -34,14 +34,17 @@
     }
 
     function authService($q, $rootScope, localStorageServiceWrapper, $location) {
-        var service = this;
+        var service = this ;
         service.request = function(config) {
             var c_user = localStorageServiceWrapper.get('current_user');
-            var access_token = c_user.token;
-            //console.log(access_token);
-            if (access_token) {
-                config.headers.Authorization = 'Bearer '+access_token;
+            if(c_user)
+            {
+                var access_token = c_user.token;
+                if (access_token) {
+                    config.headers.Authorization = 'Bearer '+access_token;
+                }
             }
+            
             return config;
         };
         service.responseError = function(error) {
