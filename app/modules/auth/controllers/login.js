@@ -31,7 +31,7 @@
                     //console.log(current_user_info) ;
                     localStorageServiceWrapper.set('current_user',current_user_info);
                     
-                    $state.go('base.proposal');
+                    $state.go('base.proposal',{},{reload:true});
                  }
 
 
