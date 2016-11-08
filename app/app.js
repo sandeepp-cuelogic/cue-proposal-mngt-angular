@@ -18,8 +18,23 @@
         ])
         .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
         .service('APIInterceptor',['$q','$rootScope','localStorageServiceWrapper','$location',authService] )
-        .run(function($rootScope) {
+        .run(function($rootScope,$location,localStorageServiceWrapper) {
             $rootScope.message = '';
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+               var loggedIn = false;
+               var c_user = localStorageServiceWrapper.get('current_user');
+               if(c_user)
+                {
+                    var access_token = c_user.token;
+                    if (access_token) {
+                        loggedIn = true;
+                    }
+                }
+                
+                if(loggedIn) {
+                    $location.path('/proposal');
+                }
+            });
         });
 
 

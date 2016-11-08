@@ -40,7 +40,8 @@
                     });
                   }
                   else{
-                    $scope.$parent.message = 'No Proposal Data';
+                    $scope.proposal_data_message = 'No Proposal Data';
+                    $scope.getProposals = {};
                   }
                  
                 
@@ -71,14 +72,14 @@
        $scope.search = function(){
         proposalService.fetchProposals(1,$scope.searchValue)
          .success(function (data, status, headers, config) {
-           
               if(data.data.count >=1){
                 $scope.getProposals = data.data.proposals;
                 setPageNo(data.data.count,data.data.proposals.length);
                 $scope.$parent.message = data.message;
               }
               else{
-                $scope.$parent.message = 'No Proposal Data';
+                $scope.proposal_data_message = 'No Proposal Data';
+                $scope.getProposals = {};
               }
             
             
