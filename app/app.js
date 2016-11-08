@@ -44,7 +44,7 @@
                     config.headers.Authorization = 'Bearer '+access_token;
                 }
             }
-            
+
             return config;
         };
         service.responseError = function(error) {
@@ -52,5 +52,4 @@
             return $q.reject(error) ;
         };
     }
-
 })();
