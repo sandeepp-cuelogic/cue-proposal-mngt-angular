@@ -10,9 +10,9 @@
             $scope.message = data;
         });
 
-        var c_user = localStorageServiceWrapper.get('current_user') ;
-        if(c_user && c_user.uname) {
-            $scope.user_name = c_user.uname ;
+        var current_user = localStorageServiceWrapper.get('current_user') ;
+        if(current_user && current_user.uname) {
+            $scope.user_name = current_user.uname ;
             $scope.show_text = true;
         }
         else{

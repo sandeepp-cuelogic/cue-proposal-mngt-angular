@@ -32,8 +32,8 @@
           			}
                 else{
                   method  = 'POST' ;
-                  var c_user = localStorageServiceWrapper.get('current_user');
-                  var user_id = c_user.user_id;
+                  var current_user = localStorageServiceWrapper.get('current_user');
+                  var user_id = current_user.user_id;
                   scope.specification['created_by'] = user_id ;
                   
                 }

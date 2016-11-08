@@ -40,8 +40,8 @@ function proposalform($state,$stateParams,proposalService,localStorageServiceWra
                     });
             }
             else{
-            var c_user = localStorageServiceWrapper.get('current_user');
-            var user_id = c_user.user_id;  
+            var current_user = localStorageServiceWrapper.get('current_user');
+            var user_id = current_user.user_id;  
             var data = {title: $scope.proposalName, client_id: $scope.clientName.id, created_by: user_id};
             if($scope.assigneeName != null)
             {

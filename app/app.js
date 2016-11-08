@@ -22,10 +22,10 @@
             $rootScope.message = '';
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                var loggedIn = false;
-               var c_user = localStorageServiceWrapper.get('current_user');
-               if(c_user && c_user.uname)
+               var current_user = localStorageServiceWrapper.get('current_user');
+               if(current_user && current_user.uname)
                 {
-                    var access_token = c_user.token;
+                    var access_token = current_user.token;
                     if (access_token) {
                         loggedIn = true;
                     }
@@ -51,10 +51,10 @@
     function authService($q, $rootScope, localStorageServiceWrapper, $location) {
         var service = this ;
         service.request = function(config) {
-            var c_user = localStorageServiceWrapper.get('current_user');
-            if(c_user && c_user.uname)
+            var current_user = localStorageServiceWrapper.get('current_user');
+            if(current_user && current_user.uname)
             {
-                var access_token = c_user.token;
+                var access_token = current_user.token;
                 if (access_token) {
                     config.headers.Authorization = 'Bearer '+access_token;
                 }
