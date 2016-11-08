@@ -23,7 +23,7 @@
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                var loggedIn = false;
                var c_user = localStorageServiceWrapper.get('current_user');
-               if(c_user)
+               if(c_user && c_user.uname)
                 {
                     var access_token = c_user.token;
                     if (access_token) {
@@ -52,7 +52,7 @@
         var service = this ;
         service.request = function(config) {
             var c_user = localStorageServiceWrapper.get('current_user');
-            if(c_user)
+            if(c_user && c_user.uname)
             {
                 var access_token = c_user.token;
                 if (access_token) {
